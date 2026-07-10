@@ -1,0 +1,206 @@
+aid: smile-io
+url: https://raw.githubusercontent.com/api-evangelist/smile-io/refs/heads/main/apis.yml
+name: Smile.io
+kind: company
+description: Smile.io is a loyalty, rewards, and referrals platform for e-commerce
+  brands (widely used on Shopify). Merchants run points programs, referral programs,
+  and VIP tiers, and integrate them programmatically through the Smile.io REST API
+  (base https://api.smile.io/v1). The REST API exposes customers and customer
+  identities, points transactions and settings, points products and purchases,
+  earning rules, rewards and reward fulfillments, VIP tiers, and custom activities.
+  It uses resource-oriented URLs, returns JSON, and is authenticated with an HTTP
+  Bearer token (a merchant API key or an app OAuth access token). REST API access
+  is gated to the Plus and Enterprise plans.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Loyalty
+- Rewards
+- Referrals
+- E-commerce
+- Points
+- Customer Retention
+- Shopify
+created: '2026-07-10'
+modified: '2026-07-10'
+specificationVersion: '0.19'
+apis:
+- aid: smile-io:smile-io-customers-api
+  name: Smile.io Customers API
+  tags:
+  - Customers
+  - Members
+  - Identities
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.smile.io/api/resources/customers/list-customers
+  baseURL: https://api.smile.io/v1
+  properties:
+  - url: https://dev.smile.io/api/introduction
+    type: Documentation
+  - url: https://dev.smile.io/api/resources/customers/list-customers
+    type: APIReference
+  - url: openapi/smile-io-openapi.yml
+    type: OpenAPI
+  - url: collections/smile-io.postman_collection.json
+    type: PostmanCollection
+  - url: collections/smile-io.opencollection.json
+    type: OpenCollection
+  description: List and retrieve loyalty program members with their point balances
+    and state (candidate, member, disabled), and create or update a customer from
+    an external system via the customer identities endpoint. Endpoints - GET
+    /customers, GET /customers/{id}, POST /customer_identities/create_or_update.
+- aid: smile-io:smile-io-points-transactions-api
+  name: Smile.io Points Transactions API
+  tags:
+  - Points
+  - Transactions
+  - Balances
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.smile.io/api/resources/points-transactions/list-points-transactions
+  baseURL: https://api.smile.io/v1
+  properties:
+  - url: https://dev.smile.io/api/resources/points-transactions/points-transaction-object
+    type: Documentation
+  - url: https://dev.smile.io/api/resources/points-transactions/list-points-transactions
+    type: APIReference
+  - url: openapi/smile-io-openapi.yml
+    type: OpenAPI
+  - url: collections/smile-io.postman_collection.json
+    type: PostmanCollection
+  - url: collections/smile-io.opencollection.json
+    type: OpenCollection
+  description: Create, list, and retrieve points transactions - the point balance
+    changes (earn, redeem, adjust) applied to a customer - and read program-level
+    points settings. Endpoints - POST /points_transactions, GET /points_transactions,
+    GET /points_transactions/{id}, GET /points_settings.
+- aid: smile-io:smile-io-points-products-api
+  name: Smile.io Points Products API
+  tags:
+  - Points
+  - Rewards
+  - Redemption
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.smile.io/api/resources/points-products/list-points-products
+  baseURL: https://api.smile.io/v1
+  properties:
+  - url: https://dev.smile.io/api/resources/points-products/points-product-object
+    type: Documentation
+  - url: https://dev.smile.io/api/resources/points-products/list-points-products
+    type: APIReference
+  - url: openapi/smile-io-openapi.yml
+    type: OpenAPI
+  - url: collections/smile-io.postman_collection.json
+    type: PostmanCollection
+  - url: collections/smile-io.opencollection.json
+    type: OpenCollection
+  description: List and retrieve points products - the redeemable products a customer
+    can purchase with points - and purchase a points product on behalf of a customer,
+    spending their point balance. Endpoints - GET /points_products, GET
+    /points_products/{id}, POST /points_products/{id}/purchase.
+- aid: smile-io:smile-io-rewards-fulfillments-api
+  name: Smile.io Reward Fulfillments API
+  tags:
+  - Rewards
+  - Fulfillments
+  - Redemption
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.smile.io/api/resources/reward-fulfillments/list-reward-fulfillments
+  baseURL: https://api.smile.io/v1
+  properties:
+  - url: https://dev.smile.io/api/resources/reward-fulfillments/reward-fulfillment-object
+    type: Documentation
+  - url: https://dev.smile.io/api/resources/reward-fulfillments/list-reward-fulfillments
+    type: APIReference
+  - url: openapi/smile-io-openapi.yml
+    type: OpenAPI
+  - url: collections/smile-io.postman_collection.json
+    type: PostmanCollection
+  - url: collections/smile-io.opencollection.json
+    type: OpenCollection
+  description: List reward fulfillment records - the fulfillment of rewards a customer
+    has redeemed (for example a discount code issued for a redemption). The reward
+    object is surfaced through these fulfillments. Endpoint - GET /reward_fulfillments.
+- aid: smile-io:smile-io-earning-rules-api
+  name: Smile.io Earning Rules API
+  tags:
+  - Earning
+  - Rules
+  - Points
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.smile.io/api/resources/earning-rules/list-earning-rules
+  baseURL: https://api.smile.io/v1
+  properties:
+  - url: https://dev.smile.io/api/resources/earning-rules/earning-rule-object
+    type: Documentation
+  - url: https://dev.smile.io/api/resources/earning-rules/list-earning-rules
+    type: APIReference
+  - url: openapi/smile-io-openapi.yml
+    type: OpenAPI
+  - url: collections/smile-io.postman_collection.json
+    type: PostmanCollection
+  - url: collections/smile-io.opencollection.json
+    type: OpenCollection
+  description: List the earning rules that define how customers earn points in a
+    program (for example points for placing an order, creating an account, or a
+    birthday). Endpoint - GET /earning_rules.
+- aid: smile-io:smile-io-vip-tiers-api
+  name: Smile.io VIP Tiers API
+  tags:
+  - VIP
+  - Tiers
+  - Loyalty
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.smile.io/api/resources/vip-tiers/list-vip-tiers
+  baseURL: https://api.smile.io/v1
+  properties:
+  - url: https://dev.smile.io/api/resources/vip-tiers/vip-tier-object
+    type: Documentation
+  - url: https://dev.smile.io/api/resources/vip-tiers/list-vip-tiers
+    type: APIReference
+  - url: openapi/smile-io-openapi.yml
+    type: OpenAPI
+  - url: collections/smile-io.postman_collection.json
+    type: PostmanCollection
+  - url: collections/smile-io.opencollection.json
+    type: OpenCollection
+  description: List the VIP tiers configured for a program, including their
+    thresholds and perks. VIP tier changes for a customer are represented by the
+    VIP Tier Change object. Endpoint - GET /vip_tiers.
+- aid: smile-io:smile-io-activities-api
+  name: Smile.io Activities API
+  tags:
+  - Activities
+  - Events
+  - Earning
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.smile.io/api/resources/activities/create-activity
+  baseURL: https://api.smile.io/v1
+  properties:
+  - url: https://dev.smile.io/api/resources/activities/activity-object
+    type: Documentation
+  - url: https://dev.smile.io/api/resources/activities/create-activity
+    type: APIReference
+  - url: openapi/smile-io-openapi.yml
+    type: OpenAPI
+  - url: collections/smile-io.postman_collection.json
+    type: PostmanCollection
+  - url: collections/smile-io.opencollection.json
+    type: OpenCollection
+  description: Record a custom customer activity so it can earn points via a matching
+    earning rule - the programmatic way to reward behavior that happens outside
+    Smile's built-in triggers. Endpoint - POST /activities.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/smile-rewards
+- type: Website
+  url: https://smile.io
+- type: Documentation
+  url: https://dev.smile.io/api/introduction
+- type: Plans
+  url: plans/smile-io-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/smile-io-rate-limits.yml
+- type: FinOps
+  url: finops/smile-io-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

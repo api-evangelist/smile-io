@@ -1,0 +1,61 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Smile.io
+providerId: smile-io
+created: '2026-07-10'
+modified: '2026-07-10'
+reconciled: false
+tags:
+- Loyalty
+- Rewards
+- E-commerce
+- Rate Limiting
+- Quotas
+description: >-
+  Smile.io documents a fixed per-token request-rate limit for its REST API: up
+  to 10 requests per second per token. When the limit is exceeded, further
+  requests return HTTP 429 - Too Many Requests, and after one second has elapsed
+  the token's limit resets and requests respond normally. Enterprise plans can
+  negotiate custom API rate limits. Separately, plan-level monthly order
+  allowances govern how much loyalty activity a program can process (with
+  per-order overage), which is a billing quota rather than an API request limit.
+notes: >-
+  The docs describe a 10 req/sec per-token sliding limit but do not enumerate
+  specific rate-limit response headers. Implement caching, reduce request volume,
+  and use exponential backoff with jitter on 429. Custom API rate limits are an
+  Enterprise feature. Verify current values in the developer docs during
+  reconciliation.
+sources:
+- https://dev.smile.io/api/rate-limits
+- https://dev.smile.io/api/introduction
+- https://dev.smile.io/api/errors
+- https://smile.io/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: REST API Requests
+  scope: token
+  metric: requests
+  limit: 10 per second
+  notes: Per-token limit. Exceeding it returns HTTP 429; the limit resets after one second.
+- name: Enterprise Custom Rate Limits
+  scope: account
+  metric: requests
+  limit: negotiated
+  notes: Enterprise plans can negotiate custom API rate limits.
+- name: Monthly Order Allowance
+  scope: account
+  metric: orders
+  limit: per plan
+  notes: Billing quota per plan tier (for example 200 / 500 / 1000 / 2500 / 7500), with per-order overage above the allowance. Not an API request limit.
+policies:
+- name: Throttling
+  description: Requests beyond 10/second per token receive HTTP 429; the token limit resets after one second.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and retry after the one-second reset window on 429 responses.
+- name: Request Reduction
+  description: Smile recommends caching responses and reducing request volume to stay within the per-second limit.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

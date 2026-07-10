@@ -1,0 +1,207 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Smile.io
+providerId: smile-io
+created: '2026-07-10'
+modified: '2026-07-10'
+reconciled: false
+tags:
+- Loyalty
+- Rewards
+- Referrals
+- E-commerce
+- Points
+- Plans
+description: >-
+  Smile.io is sold as a subscription SaaS app (prominently on Shopify) priced by
+  plan, with monthly order allowances and per-order overage above the allowance.
+  Programmatic REST API access is plan-gated - it is unlocked on the Plus plan
+  and Enterprise, and is not available on the Free, Essential, Standard, or
+  Growth plans. The figures below are a snapshot of Smile's published pricing and
+  change frequently; confirm current numbers on the pricing page during
+  reconciliation.
+notes: >-
+  Prices, order allowances, and which tier unlocks the API can change. As
+  observed, REST API access first appears on Plus (listed around $999/mo, often
+  annual-billed) and Enterprise adds custom API rate limits and data-warehouse
+  sync. Overage was observed around $5 per 100 orders above the monthly
+  allowance on paid plans. Verify all values before relying on them.
+sources:
+- https://smile.io/pricing
+- https://dev.smile.io/api/introduction
+- https://dev.smile.io/api/rate-limits
+plans:
+- id: smile-free
+  name: Free
+  type: free
+  description: >-
+    Entry tier to run a points and referral program with Smile branding on the
+    widgets. No REST API access.
+  entries:
+  - label: Included Monthly Orders
+    name: free_orders
+    type: usage
+    metric: orders
+    limit: 200
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '0'
+    userMultiplied: false
+  elements:
+  - name: Points Program
+  - name: Referral Program
+  - name: No REST API Access
+- id: smile-essential
+  name: Essential
+  type: paid
+  description: >-
+    Low-cost paid tier with a larger monthly order allowance. No REST API access.
+  entries:
+  - label: Monthly Subscription
+    name: essential_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '15'
+    userMultiplied: false
+  - label: Included Monthly Orders
+    name: essential_orders
+    type: usage
+    metric: orders
+    limit: 500
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in subscription; overage applies above allowance
+    userMultiplied: false
+  elements:
+  - name: Points Program
+  - name: Referral Program
+  - name: No REST API Access
+- id: smile-standard
+  name: Standard
+  type: paid
+  description: >-
+    Mid tier with a larger order allowance and more program features. No REST API
+    access.
+  entries:
+  - label: Monthly Subscription
+    name: standard_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '79'
+    userMultiplied: false
+  - label: Included Monthly Orders
+    name: standard_orders
+    type: usage
+    metric: orders
+    limit: 1000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in subscription; overage applies above allowance
+    userMultiplied: false
+  elements:
+  - name: Points Program
+  - name: Referral Program
+  - name: No REST API Access
+- id: smile-growth
+  name: Growth
+  type: paid
+  description: >-
+    Higher tier adding VIP tiers and unlimited integrations. Still no REST API
+    access.
+  entries:
+  - label: Monthly Subscription
+    name: growth_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '199'
+    userMultiplied: false
+  - label: Included Monthly Orders
+    name: growth_orders
+    type: usage
+    metric: orders
+    limit: 2500
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in subscription; overage applies above allowance
+    userMultiplied: false
+  elements:
+  - name: Points Program
+  - name: Referral Program
+  - name: VIP Tiers
+  - name: Unlimited Integrations
+  - name: No REST API Access
+- id: smile-plus
+  name: Plus
+  type: paid
+  description: >-
+    Advanced tier that first unlocks REST API access along with VIP tiers,
+    unlimited integrations, and priority support. Often billed annually.
+  entries:
+  - label: Monthly Subscription
+    name: plus_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '999'
+    userMultiplied: false
+  - label: Included Monthly Orders
+    name: plus_orders
+    type: usage
+    metric: orders
+    limit: 7500
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in subscription; overage applies above allowance
+    userMultiplied: false
+  elements:
+  - name: REST API Access
+  - name: VIP Tiers
+  - name: Unlimited Integrations
+  - name: Priority Support
+- id: smile-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom tier for high-volume brands - REST API access with custom API rate
+    limits, data-warehouse sync, enhanced security, SLAs, and negotiated terms.
+    Contact Smile.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: REST API Access
+  - name: Custom API Rate Limits
+  - name: Data Warehouse Sync
+  - name: Custom Volume and SLAs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

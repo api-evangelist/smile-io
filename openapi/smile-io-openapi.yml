@@ -1,0 +1,1528 @@
+# Smile.io REST API - grounded on the published spec at https://dev.smile.io/schemas/rest-api.json
+openapi: 3.1.0
+info:
+  title: Smile.io REST API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer
+    identities, points transactions and settings, points products and purchases, earning rules, rewards
+    and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard
+    HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access
+    token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+paths:
+  /activities:
+    post:
+      summary: Create an activity
+      operationId: post__activities
+      tags:
+      - Activities
+      responses:
+        '201':
+          description: The activity was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activity:
+                    $ref: '#/components/schemas/Activity'
+      description: Creates a record of a customer having performed a given action.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activity:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                      description: A token identifying the activity that was performed.
+                      example: activity_f57a9b5a8d0ac5
+                    distinct_id:
+                      type: string
+                      description: A unique identifier for the activity in the external system (e.g. the
+                        order number).
+                      example: '212993'
+                    created_on_origin_at:
+                      type: string
+                      description: The date and time the activity was performed by the customer in the
+                        external system (e.g. when the action actually occurred, which is often earlier
+                        than when the activity is created in Smile).
+                      format: date-time
+                      example: '2024-04-04T15:10:42.030Z'
+                  required:
+                  - token
+                  oneOf:
+                  - title: With customer ID
+                    properties:
+                      customer_id:
+                        type: integer
+                        example: 304169228
+                        description: The ID of the customer who performed the activity. Required if `customer_email`
+                          is not provided.
+                    required:
+                    - customer_id
+                  - title: With customer email
+                    properties:
+                      customer_email:
+                        type: string
+                        example: jane@doe.com
+                        description: The email of the customer who performed the activity. Required if
+                          `customer_id` is not provided.
+                        format: email
+                    required:
+                    - customer_email
+              required:
+              - activity
+  /earning_rules:
+    get:
+      summary: List earning rules
+      operationId: get__earning_rules
+      tags:
+      - Earning Rules
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  earning_rules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EarningRule'
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+      description: Retrieves a list of enabled earning rules.
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of earning rules to retrieve.
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of earning rules to retrieve.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Cursor for the page of earning rules to retrieve.
+        description: Cursor for the page of earning rules to retrieve.
+  /reward_fulfillments:
+    get:
+      summary: List reward fulfillments
+      operationId: get__reward_fulfillments
+      tags:
+      - Reward Fulfillments
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reward_fulfillments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardFulfillment'
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+      description: Retrieves a list of reward fulfillments.
+      parameters:
+      - name: customer_id
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Filter results to only reward fulfillments with the provided Smile customer ID.
+        description: Filter results to only reward fulfillments with the provided Smile customer ID.
+      - name: fulfillment_status
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only reward fulfillments whose fulfillment status matches the
+            provided value.
+          enum:
+          - pending
+          - issued
+          - cancelled
+          - failed
+        description: Filter results to only reward fulfillments whose fulfillment status matches the provided
+          value.
+      - name: usage_status
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only reward fulfillments whose usage status matches the provided
+            values.
+          enum:
+          - used
+          - unused
+          - untracked
+        description: Filter results to only reward fulfillments whose usage status matches the provided
+          values.
+      - name: updated_at_min
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only reward fulfillments updated after the provided date and
+            time.
+          format: date-time
+        description: Filter results to only reward fulfillments updated after the provided date and time.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of reward fulfillments to retrieve.
+          example: 1
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of reward fulfillments to retrieve.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Cursor for the page of reward fulfillments to retrieve.
+        description: Cursor for the page of reward fulfillments to retrieve.
+  /customer_identities/create_or_update:
+    post:
+      summary: Create or update a customer identity
+      operationId: post__customer_identities_create_or_update
+      tags:
+      - Customer Identities
+      responses:
+        '200':
+          description: Customer identity successfully updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer_identity:
+                    $ref: '#/components/schemas/CustomerIdentity'
+        '201':
+          description: Customer identity successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer_identity:
+                    $ref: '#/components/schemas/CustomerIdentity'
+      description: Creates a new customer identity or updates an existing one.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_identity:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                      description: The first name of the customer in the external system.
+                      example: Jane
+                    last_name:
+                      type: string
+                      description: The last name of the customer in the external system.
+                      example: Doe
+                    email:
+                      type: string
+                      description: The email of the customer in the external system.
+                      format: email
+                      example: jane@doe.com
+                    distinct_id:
+                      type: string
+                      description: The unique identifier for the customer in the external system.
+                      example: cust_19238475
+                    properties:
+                      type: object
+                      description: A restricted hash of additional attributes for the customer identity.
+                        Keys are allowlisted on a per-integration basis.
+                  required:
+                  - email
+                  - distinct_id
+              required:
+              - customer_identity
+  /points_products/{id}/purchase:
+    post:
+      summary: Purchase a points product
+      operationId: post__points_products_id_purchase
+      tags:
+      - Points Products
+      responses:
+        '201':
+          description: The points product was successfully purchased.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_purchase:
+                    $ref: '#/components/schemas/PointsPurchase'
+      description: Exchanges a customer's points for a reward by purchasing a points product.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the points product to purchase.
+          example: 132456921
+        description: ID of the points product to purchase.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                  description: ID of the customer who is purchasing the points product.
+                  example: 304169228
+                points_to_spend:
+                  type: integer
+                  description: The number of points that will be spent on behalf of the customer. Only
+                    applies when purchasing a points product whose `exchange_type` is `variable`, otherwise
+                    should be left blank.
+                  example: 500
+              required:
+              - customer_id
+  /points_products:
+    get:
+      summary: List points products
+      operationId: get__points_products
+      tags:
+      - Points Products
+      responses:
+        '200':
+          description: The points products were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PointsProduct'
+      description: Retrieves a list of points products based on the specified filters.
+      parameters:
+      - name: exchange_type
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only points products with the provided `exchange_type`.
+          enum:
+          - fixed
+          - variable
+          example: variable
+        description: Filter results to only points products with the provided `exchange_type`.
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of points products to retrieve.
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of points products to retrieve.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The page of points products to retrieve.
+          default: 1
+        description: The page of points products to retrieve.
+  /points_products/{id}:
+    get:
+      summary: Retrieve a points product
+      operationId: get__points_products_id
+      tags:
+      - Points Products
+      responses:
+        '200':
+          description: The points product was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_product:
+                    $ref: '#/components/schemas/PointsProduct'
+      description: Retrieves a single points product by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the points product to retrieve.
+        description: ID of the points product to retrieve.
+  /points_transactions:
+    post:
+      summary: Create a points transaction
+      operationId: post__points_transactions
+      tags:
+      - Points Transactions
+      responses:
+        '201':
+          description: The points transaction was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_transaction:
+                    $ref: '#/components/schemas/PointsTransaction'
+      description: Add or remove points from a customer's points balance by creating a points transaction.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                points_transaction:
+                  type: object
+                  properties:
+                    customer_id:
+                      type: integer
+                      description: The ID of the customer whose balance this points transaction applies
+                        to.
+                      example: 304169228
+                    points_change:
+                      type: integer
+                      description: The number of points added or removed from the customer's points balance.
+                        The value is positive if points were added to the customer's balance and negative
+                        if points were deducted.
+                      example: 100
+                    description:
+                      type: string
+                      description: A message visible to the customer that describes the reason for the
+                        points change.
+                      example: Points correction
+                    internal_note:
+                      type: string
+                      description: A note that is visible to the merchant. This note should never be visible
+                        to customers.
+                      example: 'Due to issue with order #6834'
+                  required:
+                  - customer_id
+                  - points_change
+              required:
+              - points_transaction
+    get:
+      summary: List points transactions
+      operationId: get__points_transactions
+      tags:
+      - Points Transactions
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PointsTransaction'
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+      description: Retrieves a list of points transactions.
+      parameters:
+      - name: customer_id
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Filter results to only points transactions with the provided Smile customer ID.
+        description: Filter results to only points transactions with the provided Smile customer ID.
+      - name: updated_at_min
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only points transactions updated at or after the provided date
+            and time.
+          format: date-time
+        description: Filter results to only points transactions updated at or after the provided date
+          and time.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of points transactions to retrieve.
+          example: 1
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of points transactions to retrieve.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Cursor for the page of points transactions to retrieve.
+        description: Cursor for the page of points transactions to retrieve.
+  /points_transactions/{id}:
+    get:
+      summary: Retrieve a points transaction
+      operationId: get__points_transactions_id
+      tags:
+      - Points Transactions
+      responses:
+        '200':
+          description: The points transaction was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_transaction:
+                    $ref: '#/components/schemas/PointsTransaction'
+      description: Retrieves a single points transaction by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the points transaction to retrieve.
+        description: ID of the points transaction to retrieve.
+  /vip_tiers:
+    get:
+      summary: List VIP tiers
+      operationId: get__vip_tiers
+      tags:
+      - VIP Tiers
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vip_tiers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VipTier'
+      description: Retrieves a list of VIP tiers.
+      parameters:
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: string
+          description: A comma-separated list of nested objects to include in the response.
+          enum:
+          - perks
+          - entry_rewards
+        description: A comma-separated list of nested objects to include in the response.
+  /points_settings:
+    get:
+      summary: Get points settings
+      operationId: get__points_settings
+      tags:
+      - Points Settings
+      responses:
+        '200':
+          description: The points settings were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_settings:
+                    $ref: '#/components/schemas/PointsSettings'
+      description: Retrieves the configuration for the account's points program.
+  /customers/{id}:
+    get:
+      summary: Retrieve a customer
+      operationId: get__customers_id
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: The customer was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer:
+                    $ref: '#/components/schemas/Customer'
+      description: Retrieves a single customer by ID.
+      parameters:
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: string
+          description: A comma-separated list of related objects to include in the response.
+          enum:
+          - vip_status
+          - vip_status.vip_tier
+          - vip_status.next_vip_tier
+        description: A comma-separated list of related objects to include in the response.
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the customer (in Smile) to retrieve.
+        description: ID of the customer (in Smile) to retrieve.
+  /customers:
+    get:
+      summary: List customers
+      operationId: get__customers
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: The customers were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customer'
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+      description: Retrieves a list of customers based on a set of provided filters.
+      parameters:
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only customers with the provided email address.
+        description: Filter results to only customers with the provided email address.
+      - name: state
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only customers with the provided state.
+          enum:
+          - candidate
+          - member
+          - disabled
+        description: Filter results to only customers with the provided state.
+      - name: updated_at_min
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only customers updated after the provided date and time.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+        description: Filter results to only customers updated after the provided date and time.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of customers to retrieve.
+          example: 1
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of customers to retrieve.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Cursor for the page of customers to retrieve.
+        description: Cursor for the page of customers to retrieve.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: string
+          description: A comma-separated list of related objects to include in the response.
+          enum:
+          - vip_status
+        description: A comma-separated list of related objects to include in the response.
+components:
+  schemas:
+    PaginationMetadata:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
+          description: A cursor value that when present, can be used to retrieve the next page of results.
+        previous_cursor:
+          type:
+          - string
+          - 'null'
+          example: ''
+          description: A cursor value that when present, can be used to retrieve the previous page of
+            results.
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 304169228
+          description: Unique identifier for the customer in Smile.
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: Jane
+          description: The customer's first name.
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Doe
+          description: The customer's last name.
+        email:
+          type: string
+          example: jane@doe.com
+          description: The customer's email address.
+        state:
+          type: string
+          enum:
+          - candidate
+          - member
+          - disabled
+          example: member
+          description: The customer's state in the loyalty program.
+        date_of_birth:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '1004-05-27'
+          description: The customer's birthday. A year value of `1004` means only the customer's birth
+            day and month was entered.
+        points_balance:
+          type: integer
+          example: 300
+          description: The customer's current points balance.
+        referral_url:
+          type: string
+          example: http://i.refs.cc/9qr5Pw
+          description: The customer's unique referral URL. Used to share with friends as part of the referral
+            program.
+        vip_tier_id:
+          type:
+          - integer
+          - 'null'
+          example: 426715794
+          deprecated: true
+          description: The ID of the customer's current VIP tier. This field is now deprecated, use the
+            nested `vip_status.vip_tier_id` instead.
+        vip_status:
+          type: object
+          properties:
+            vip_tier_id:
+              type:
+              - integer
+              - 'null'
+              example: 426715794
+              description: The ID of the customer's current VIP tier.
+            vip_tier_expires_at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              example: '2026-12-31T23:59:59.999Z'
+              description: The date the customer's current VIP tier expires. For all-time VIP programs,
+                this will be `null` because tiers do not expire.
+            progress_value:
+              type:
+              - number
+              - 'null'
+              format: float
+              example: 300
+              description: The amount the customer has already spent or earned within the current VIP
+                period.
+            current_vip_period_end:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              example: '2025-12-31T23:59:59.999Z'
+              description: The end date for the current VIP period. For calendar-year VIP programs, this
+                will be the end of the current calendar year. For all-time VIP programs, this will be
+                `null`.
+            delta_to_retain_vip_tier:
+              type:
+              - number
+              - 'null'
+              format: float
+              description: The additional amount the customer must spend or earn before the end of the
+                current VIP period to retain their VIP tier until the end of the next VIP period. For
+                all-time VIP programs or if the customer has already spent or earned enough this period
+                to retain their current VIP tier, this will be `null`.
+            next_vip_tier_id:
+              type:
+              - integer
+              - 'null'
+              example: 426715799
+              description: The ID of the next VIP tier that the customer will move into if they meet the
+                minimum spending or earning requirement. If the customer is already in the highest tier,
+                this will be `null`.
+            delta_to_next_vip_tier:
+              type:
+              - number
+              - 'null'
+              format: float
+              example: 200
+              description: The amount the customer must spend or earn within the current VIP period to
+                reach the next VIP tier. If the customer is already in the highest tier, this will be
+                `null`.
+          description: An object containing details about the customer's status within the VIP program.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the customer was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2025-04-04T15:10:42.030Z'
+          description: The date and time when the customer was last updated.
+    VipTier:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 426715799
+          description: Unique identifier for the VIP tier.
+        name:
+          type: string
+          example: Gold
+          description: The display name of the VIP tier.
+        image_url:
+          type: string
+          example: https://platform.smile.io/v1/images/vip_tiers/vip-tier-3.svg
+          description: The image of the VIP tier.
+        milestone:
+          type: number
+          format: float
+          example: 500
+          description: The threshold that a customer must reach to be eligible for the VIP tier. Represents
+            either an amount of points or a dollar amount, depending on the loyalty program's configuration.
+        perks:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Early access to new product releases
+                description: A description of the benefit.
+          description: A set of nested objects representing the ongoing benefits a customer is entitled
+            to when they are in the VIP tier.
+        entry_rewards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reward'
+          description: A set of nested Reward objects representing the rewards that are issued to a customer
+            when they enter the VIP tier.
+    PointsTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 825673452
+          description: Unique identifier for the points transaction.
+        customer_id:
+          type: integer
+          example: 304169228
+          description: The ID of the customer whose balance this points transaction applies to.
+        points_change:
+          type: integer
+          example: 100
+          description: The number of points added or removed from the customer's points balance. The value
+            is positive if points were added to the customer's balance and negative if points were deducted.
+        description:
+          type: string
+          example: Points correction
+          description: A message visible to the customer that describes the reason for the points change.
+        internal_note:
+          type:
+          - string
+          - 'null'
+          example: 'Due to issue with order #6834'
+          description: A note that is visible to the merchant. This note should never be visible to customers.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the points transaction was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the points transaction was last updated.
+    PointsProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 132456921
+          description: Unique identifier for the points product.
+        exchange_type:
+          type: string
+          enum:
+          - fixed
+          - variable
+          example: variable
+          description: How points are exchanged for the reward.
+        exchange_description:
+          type: string
+          example: 100 Points = $1 off
+          description: A human readable description of how a customer spends points on this reward. It
+            includes the points branding for the program.
+        points_price:
+          type:
+          - integer
+          - 'null'
+          description: Number of points needed to purchase this reward. Only present when `exchange_type`
+            is `fixed`.
+        variable_points_step:
+          type:
+          - integer
+          - 'null'
+          example: 100
+          description: Imagine there's a points slider your customers can drag to spend more or less points
+            on a reward. The `variable_points_step` represents the number of points between each notch
+            on the slider. E.g. If this value is set to 100, it means customers can spend their points
+            in increments of 100. They will drag the slider from 100, 200, 300, etc. Only present when
+            `exchange_type` is `variable`.
+        variable_points_step_reward_value:
+          type:
+          - integer
+          - 'null'
+          example: 1
+          description: Imagine there's a points slider your customers can drag to spend more or less points
+            on a reward. The `variable_points_step_reward_value` represents the corresponding reward value
+            for each step increment on the slider. E.g. if this value is set to 1, and the variable_points_step
+            is set to 100, the customer will get $1 off for every 100 points they spend. Only present
+            when `exchange_type` is `variable.`
+        variable_points_min:
+          type:
+          - integer
+          - 'null'
+          example: 100
+          description: The minimum amount of points the customer must spend to get this reward. Normally
+            the minimum value of the points slider. Only present when `exchange_type` is `variable`.
+        variable_points_max:
+          type:
+          - integer
+          - 'null'
+          example: 5000
+          description: The maximum amount of points the customer must spend to get this reward. Normally
+            the maximum value of the points slider. Only present when `exchange_type` is `variable`.
+        reward:
+          $ref: '#/components/schemas/Reward'
+          description: A nested Reward object representing the reward issued to the customer when they
+            purchase the points product.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the points product was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the points product was last updated.
+    PointsPurchase:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the points purchase.
+          example: 665523890
+        customer_id:
+          type: integer
+          description: The ID of the customer who performed the points purchase.
+          example: 304169228
+        points_product_id:
+          type: integer
+          description: The ID of the points product that was purchased.
+          example: 132456921
+        points_spent:
+          type: integer
+          description: The total points spent by the customer.
+          example: 500
+          minimum: 0
+        reward_fulfillment:
+          $ref: '#/components/schemas/RewardFulfillment'
+          description: A record of a reward that was issued to a customer.
+        created_at:
+          type: string
+          description: The date and time when the points purchase was created.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+        updated_at:
+          type: string
+          description: The date and time when the points purchase was last updated.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+    Referral:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 133577
+          description: Unique identifier for the referral.
+        receiver_customer:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: integer
+              example: 304169229
+            first_name:
+              type: string
+              example: Carmen
+            last_name:
+              type: string
+              example: Sandiego
+            email:
+              type: string
+              example: carmen@smile.io
+            state:
+              type: string
+              example: member
+            date_of_birth:
+              type: string
+              format: date
+              example: '1004-05-15'
+            points_balance:
+              type: integer
+              example: 0
+            referral_url:
+              type: string
+              example: http://i.refs.cc/j2Fw66
+            vip_tier_id:
+              type: integer
+            created_at:
+              type: string
+              format: date-time
+              example: '2025-04-05T12:11:22.040Z'
+            updated_at:
+              type: string
+              format: date-time
+              example: '2025-04-05T12:11:22.040Z'
+          description: A nested Customer object representing the individual who is being referred. Only
+            present after an order is placed using the referral coupon.
+        receiver_customer_email:
+          type: string
+          example: carmen@smile.io
+          description: The email address of the individual being referred.
+        receiver_reward_fulfillment:
+          $ref: '#/components/schemas/RewardFulfillment'
+          description: A nested Reward Fulfillment object representing the reward that was issued to the
+            individual who is being referred.
+        sender_customer:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 304169228
+            first_name:
+              type:
+              - string
+              - 'null'
+              example: Jane
+            last_name:
+              type:
+              - string
+              - 'null'
+              example: Doe
+            email:
+              type: string
+              example: jane@smile.io
+            state:
+              type: string
+              example: member
+            date_of_birth:
+              type:
+              - string
+              - 'null'
+              format: date
+              example: '1004-05-27'
+            points_balance:
+              type: integer
+              example: 300
+            referral_url:
+              type: string
+              example: http://i.refs.cc/9qr5Pw
+            vip_tier_id:
+              type:
+              - integer
+              - 'null'
+            created_at:
+              type: string
+              format: date-time
+              example: '2024-04-04T15:10:42.030Z'
+            updated_at:
+              type: string
+              format: date-time
+              example: '2024-04-04T15:10:42.030Z'
+          description: A nested Customer object representing the customer whose referral link was used
+            to initiate the referral.
+        sender_reward_fulfillment:
+          $ref: '#/components/schemas/RewardFulfillment'
+          description: A nested Reward Fulfillment object representing the reward issued to the customer
+            whose referral link was used to initiate the referral. Only present after the individual being
+            referred places an order.
+        created_at:
+          type: string
+          format: date-time
+          example: '2025-04-04T20:15:27.893Z'
+          description: The date and time when the referral was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2025-04-05T12:15:22.040Z'
+          description: The date and time when the referral was last updated.
+    CustomerIdentity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 863291377
+          description: Unique identifier for the customer identity in Smile.
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: Jane
+          description: The first name of the customer in the external system.
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Doe
+          description: The last name of the customer in the external system.
+        email:
+          type: string
+          format: email
+          example: jane@doe.com
+          description: The email of the customer in the external system.
+        distinct_id:
+          type: string
+          example: cust_19238475
+          description: The unique identifier for the customer in the external system.
+        properties:
+          type: object
+          description: A restricted hash of additional attributes for the customer identity. Keys are
+            allowlisted on a per-integration basis.
+        customer_id:
+          type: integer
+          description: The ID of the customer in Smile that this customer identity is linked to.
+    Reward:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 924565472
+          description: Unique identifier for the reward.
+        name:
+          type: string
+          example: Order discount
+          description: The name of the reward.
+        description:
+          type: string
+          description: A description of the reward.
+        image_url:
+          type: string
+          example: https://platform-images.smilecdn.co/3755938.png
+          description: An image for the reward.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was last updated.
+    RewardFulfillment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 625478984
+          description: Unique identifier for the reward fulfillment.
+        name:
+          type: string
+          example: $5 off coupon
+          description: The name of the reward fulfillment.
+        code:
+          type: string
+          example: 5off-e26d02e39149
+          description: A unique code for the customer to use or apply the reward fulfillment. This is
+            commonly a discount code the customer applies at checkout on their next order, but it can
+            be a unique code they use for other purposes like accessing an exclusive page on the merchant's
+            website.
+        customer_id:
+          type: integer
+          example: 304169228
+          description: The ID of the customer that the reward fulfillment belongs to.
+        fulfillment_status:
+          type: string
+          enum:
+          - pending
+          - issued
+          - cancelled
+          - failed
+          example: issued
+          description: The fulfillment status of the reward fulfillment, indicating whether the reward
+            is available to the customer.
+        image_url:
+          type: string
+          example: https://platform-images.smilecdn.co/9283449.png
+          description: An image for the reward fulfillment.
+        action_text:
+          type:
+          - string
+          - 'null'
+          description: A short call-to-action style text, appropriate for use in buttons or links, guiding
+            the customer on how to use the reward fulfillment. This field may be blank
+        action_url:
+          type:
+          - string
+          - 'null'
+          description: A URL destination guiding the customer on how to use the reward, often paired with
+            the `action_text` for use in buttons or links. This field may be blank.
+        usage_instructions:
+          type:
+          - string
+          - 'null'
+          example: Use this discount code on your next order!
+          description: A description of how the customer can use or apply the reward fulfillment.
+        terms_and_conditions:
+          type:
+          - string
+          - 'null'
+          example: Reward expires on June 7, 2025. Reward can only be used on purchase of $50 or more.
+            Reward can only be used on select product collections.
+          description: A description of the reward fulfillment's limitations or restrictions. When the
+            reward is a discount code, this commonly includes expiry date, minimum order amounts, or applicability
+            to specific product collections.
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2025-06-07T23:59:59.999Z'
+          description: The date and time when the reward fulfillment expires. When the reward is a discount
+            code, this refers to the expiry date of the discount, and a `null` value indicates that the
+            discount code does not expire.
+        usage_status:
+          type: string
+          enum:
+          - used
+          - unused
+          - untracked
+          example: unused
+          description: The usage status of the reward fulfillment, indicating whether the generated reward
+            has been used by the customer.
+        used_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when the reward fulfillment was used by the customer. If the
+            reward fulfillments does not support usage tracking, this field may be `null` even after the
+            reward fulfillment has been used.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the reward fulfillment was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the reward fulfillment was last updated.
+    EarningRule:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 739246764
+          description: Unique identifier for the earning rule.
+        name:
+          type: string
+          example: Place an order
+          description: The display name of the earning rule.
+        image_url:
+          type: string
+          example: https://platform.smile.io/images/earning/order-online.svg
+          description: The image of the earning rule.
+        action_text:
+          type:
+          - string
+          - 'null'
+          example: null
+          description: The label for a clickable element (e.g. a call to action) that allows the customer
+            to complete the rewardable action. When `null`, no clickable element should be displayed.
+        action_url:
+          type:
+          - string
+          - 'null'
+          example: null
+          description: The destination URL for a clickable element (e.g. a call to action) that allows
+            the customer to complete the rewardable action. When `null`, no clickable element should be
+            displayed.
+        restricted_to_vip_tier_ids:
+          type: array
+          items:
+            type: integer
+            example: 426715799
+          description: A list of VIP tier IDs. When present, the earning rule only applies to customers
+            who currently belong to at least one of the specified VIP tiers. If the array is empty, the
+            earning rule applies to all VIP tiers.
+        reward:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - points
+              example: points
+              description: The type of reward that will be issued.
+          description: The reward that will be issued to the customer when the rewardable action is completed.
+        reward_value:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - variable
+              - fixed
+              example: variable
+              description: The way that the reward's value will be computed.
+            variable:
+              type: object
+              properties:
+                value:
+                  type: number
+                  format: float
+                  example: 5
+                  description: The amount of reward value issued per unit (e.g. if the reward is 5 Points
+                    per $1 spent, this field would be `5.0`).
+                per_amount:
+                  type: number
+                  format: float
+                  example: 1
+                  description: The amount of action needed to earn the specified value (e.g. if the reward
+                    is 5 Points per $1 spent, this field would be `1.0`).
+              description: The configuration for a variable reward value (e.g. points per dollar spent).
+                Only present when type is `variable`, otherwise this key will be omitted from response.
+            fixed:
+              type: object
+              properties:
+                value:
+                  type: number
+                  format: float
+                  example: 100
+                  description: The value of the reward that will be issued.
+              description: The configuration for a fixed reward value (e.g. 5 points). Only present when
+                type is `fixed`, otherwise this key will be omitted from response.
+          description: The value of the reward that will be issued to the customer when the rewardable
+            action is completed.
+        earning_limit:
+          type:
+          - object
+          - 'null'
+          properties:
+            max:
+              type: integer
+              example: 5
+              description: Maximum number of times a customer can complete the rule within the specified
+                timeframe.
+            type:
+              type: string
+              enum:
+              - rolling
+              - lifetime
+              example: rolling
+              description: The type of timeframe the limit applies to.
+            rolling:
+              type: object
+              properties:
+                unit:
+                  type: string
+                  enum:
+                  - day
+                  example: day
+                  description: The rolling window's unit (e.g. if the window is 30 days, this field will
+                    have a value of `day`).
+                unit_count:
+                  type: integer
+                  example: 30
+                  description: The number of units in the rolling window (e.g. if the window is 30 days,
+                    this field will have a value of `30`).
+              description: The configuration for a rolling window of time. Only present when type is `rolling`,
+                otherwise this key will be omitted from response.
+          description: A restriction on the number of times the rewardable action can be completed. If
+            no limit exists, will be `null`.
+    VipTierChange:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 114225280
+          description: Unique identifier for the VIP tier change.
+        previous_vip_tier:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 341925843
+            name:
+              type: string
+              example: Silver
+            image_url:
+              type: string
+              example: https://platform-images.smilecdn.co/379d1fi35m5o.png
+          description: The nested VIP Tier object representing the tier the customer was in before the
+            change occurred.
+        current_vip_tier:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 426715799
+            name:
+              type: string
+              example: Gold
+            image_url:
+              type: string
+              example: https://platform-images.smilecdn.co/582j2kd82k2j.png
+          description: The nested VIP Tier object representing the tier the customer moved to as a result
+            of the change.
+        description:
+          type: string
+          example: Achieved Gold
+          description: A description of the change that occurred.
+    PointsSettings:
+      type: object
+      properties:
+        points_label:
+          type: object
+          properties:
+            one:
+              type: string
+              example: Coin
+              description: The singular unit for a point.
+            other:
+              type: string
+              example: Coins
+              description: The unit for zero or many points.
+          description: The branding of the account's points currency.
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 503256787
+          description: Unique identifier for the activity.
+        customer_id:
+          type: integer
+          example: 304169228
+          description: The ID of the customer who performed the activity.
+        token:
+          type: string
+          example: activity_f57a9b5a8d0ac5
+          description: A token identifying the activity that was performed.
+        distinct_id:
+          type:
+          - string
+          - 'null'
+          example: '212993'
+          description: A unique identifier for the activity in the external system (e.g. the order number).
+        created_on_origin_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time the activity was performed by the customer in the external system
+            (e.g. when the action actually occurred, which is often earlier than when the activity is
+            created in Smile).
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-05-15T08:35:08.920Z'
+          description: The date and time when the activity was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-05-15T08:35:08.920Z'
+          description: The date and time when the activity was last updated.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+- bearerAuth: []
+tags:
+- name: Customers
+  description: Loyalty program members and their point balances and state.
+- name: Customer Identities
+  description: Create or update a customer from an external system identity.
+- name: Points Transactions
+  description: Point balance changes - earn, redeem, adjust - for a customer.
+- name: Points Settings
+  description: Program-level points configuration (currency name, ratios).
+- name: Points Products
+  description: Redeemable products a customer can purchase with points.
+- name: Earning Rules
+  description: Rules that define how customers earn points.
+- name: Reward Fulfillments
+  description: Fulfillment records for rewards a customer has redeemed.
+- name: VIP Tiers
+  description: VIP program tiers and their thresholds and perks.
+- name: Activities
+  description: Record custom customer activities that can earn points.

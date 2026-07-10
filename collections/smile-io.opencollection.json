@@ -1,0 +1,289 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Path parameter."
+              }
+            ]
+          },
+          "docs": "Retrieve a customer"
+        },
+        {
+          "info": {
+            "name": "List customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/customers"
+          },
+          "docs": "List customers"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Customer Identities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or update a customer identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/customer_identities/create_or_update",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"customer_identity\": {\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@doe.com\",\n    \"distinct_id\": \"cust_19238475\",\n    \"properties\": null\n  }\n}"
+            }
+          },
+          "docs": "Create or update a customer identity"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Points Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a points transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/points_transactions",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"points_transaction\": {\n    \"customer_id\": 304169228,\n    \"points_change\": 100,\n    \"description\": \"Points correction\",\n    \"internal_note\": \"Due to issue with order #6834\"\n  }\n}"
+            }
+          },
+          "docs": "Create a points transaction"
+        },
+        {
+          "info": {
+            "name": "List points transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_transactions"
+          },
+          "docs": "List points transactions"
+        },
+        {
+          "info": {
+            "name": "Retrieve a points transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Path parameter."
+              }
+            ]
+          },
+          "docs": "Retrieve a points transaction"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Points Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get points settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_settings"
+          },
+          "docs": "Get points settings"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Points Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Purchase a points product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/points_products/:id/purchase",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Path parameter."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"customer_id\": 304169228,\n  \"points_to_spend\": 500\n}"
+            }
+          },
+          "docs": "Purchase a points product"
+        },
+        {
+          "info": {
+            "name": "List points products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_products"
+          },
+          "docs": "List points products"
+        },
+        {
+          "info": {
+            "name": "Retrieve a points product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Path parameter."
+              }
+            ]
+          },
+          "docs": "Retrieve a points product"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Earning Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List earning rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/earning_rules"
+          },
+          "docs": "List earning rules"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reward Fulfillments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List reward fulfillments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/reward_fulfillments"
+          },
+          "docs": "List reward fulfillments"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "VIP Tiers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List VIP tiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/vip_tiers"
+          },
+          "docs": "List VIP tiers"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Activities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/activities",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"activity\": {\n    \"token\": \"activity_f57a9b5a8d0ac5\",\n    \"distinct_id\": \"212993\",\n    \"created_on_origin_at\": \"2024-04-04T15:10:42.030Z\"\n  }\n}"
+            }
+          },
+          "docs": "Create an activity"
+        }
+      ]
+    }
+  ]
+}

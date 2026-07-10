@@ -1,0 +1,92 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Smile.io
+providerId: smile-io
+created: '2026-07-10'
+modified: '2026-07-10'
+reconciled: false
+tags:
+- Loyalty
+- Rewards
+- E-commerce
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Smile.io spend. Smile is a subscription SaaS loyalty app billed
+  monthly by plan tier, where each plan bundles a monthly order allowance and
+  charges per-order overage above that allowance. REST API access itself carries
+  no separate metered fee - it is a capability unlocked on the Plus and
+  Enterprise plans rather than usage billed per API call. The primary cost
+  drivers are therefore the plan subscription and order-volume overage, plus any
+  Enterprise contract terms.
+notes: >-
+  Per-unit overage and exact plan prices are a snapshot and change; verify on the
+  Smile pricing page. API calls are not separately metered - the cost lever tied
+  to the API is which plan tier you must be on (Plus or Enterprise) to use it at
+  all.
+sources:
+- https://smile.io/pricing
+- https://dev.smile.io/api/introduction
+- https://dev.smile.io/api/rate-limits
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Smile.io
+serviceCategory: Marketing and Loyalty
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Smile.io
+  ServiceCategory: Marketing and Loyalty
+  ProviderName: Smile.io
+  PublisherName: Smile.io
+  InvoiceIssuerName: Smile.io
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription
+meters:
+- name: plan_subscription
+  description: Fixed monthly subscription fee for the selected Smile plan tier.
+  unit: subscription
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: order_overage
+  description: Per-order charge for monthly orders above the plan's included allowance.
+  unit: orders
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: api_access
+  description: REST API access as a plan capability (Plus and Enterprise); not metered per call.
+  unit: capability
+  aggregation: max
+  dimensions:
+  - account
+  - plan
+principles:
+- name: Visibility
+  description: Track the plan subscription and monthly order volume against the included allowance so overage is anticipated, not a surprise.
+- name: Allocation
+  description: Attribute the loyalty subscription and overage to the storefront/brand that runs the Smile program.
+- name: Optimization
+  description: Right-size the plan tier to actual monthly order volume; only step up to Plus/Enterprise when REST API access, VIP tiers, or custom rate limits are genuinely required.
+- name: Accountability
+  description: Assign an owner to review monthly orders vs allowance and reassess plan fit before renewal.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

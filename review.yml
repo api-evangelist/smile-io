@@ -1,0 +1,100 @@
+aid: smile-io
+name: Smile.io
+review:
+  question: Does Smile.io expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-10'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Smile.io's documented public surface is a
+    request/response REST API over HTTPS (base https://api.smile.io/v1). The only
+    push-style mechanism Smile documents is server-to-endpoint webhooks (HTTP
+    POST callbacks for loyalty events), which is not a WebSocket or SSE transport.
+    The browser JavaScript SDK (Smile.js) and Smile UI talk to Smile over HTTPS
+    on behalf of a logged-in customer; they do not open a documented public
+    WebSocket. There is no server-push, bidirectional, ws:// or wss:// endpoint
+    to model.
+findings:
+  summary: |
+    Smile.io does not publish a documented public WebSocket API. Smile is an
+    e-commerce loyalty, rewards, and referrals platform. Its developer REST API
+    (base https://api.smile.io/v1) is pure request/response REST over HTTPS,
+    authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth
+    access token). Real-time-ish integration is offered through webhooks -
+    Smile POSTs event notifications to a merchant/app HTTP endpoint - not a
+    persistent socket. The client-side Smile.js SDK and Smile UI components are
+    HTTPS clients, not a documented WebSocket surface. No ws:// or wss:// endpoint
+    is documented anywhere in the Smile developer docs as of the review date.
+  accessModel: |
+    The REST API is plan-gated. Per Smile's published pricing, REST API access is
+    available on the Plus plan (listed at $999/mo) and Enterprise (custom);
+    Enterprise adds custom API rate limits. The Free, Essential, Standard, and
+    Growth plans do not unlock the REST API. Authentication is
+    Authorization: Bearer <api key or OAuth access token>; all requests are HTTPS.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.smile.io/v1
+      documented: true
+      note: Resource-oriented REST API returning JSON, Bearer auth, 10 req/sec per token.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Smile POSTs loyalty event notifications to a configured HTTP endpoint. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: JavaScript SDK
+      scheme: https
+      documented: true
+      note: Browser Smile.js SDK and Smile UI act as HTTPS clients on behalf of a logged-in customer. Not a WebSocket surface.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Smile's developer docs as of the review date.
+  endpointsConfirmedRest:
+    - GET  https://api.smile.io/v1/customers
+    - GET  https://api.smile.io/v1/customers/{id}
+    - POST https://api.smile.io/v1/customer_identities/create_or_update
+    - POST https://api.smile.io/v1/points_transactions
+    - GET  https://api.smile.io/v1/points_transactions
+    - GET  https://api.smile.io/v1/points_transactions/{id}
+    - GET  https://api.smile.io/v1/points_settings
+    - GET  https://api.smile.io/v1/points_products
+    - GET  https://api.smile.io/v1/points_products/{id}
+    - POST https://api.smile.io/v1/points_products/{id}/purchase
+    - GET  https://api.smile.io/v1/earning_rules
+    - GET  https://api.smile.io/v1/reward_fulfillments
+    - GET  https://api.smile.io/v1/vip_tiers
+    - POST https://api.smile.io/v1/activities
+  referralsAndRewardsNote: |
+    Referral and Reward are documented as objects (schemas) but have no dedicated
+    top-level REST collection endpoint. Referral outcomes surface through
+    customers, points transactions, and activities; reward outcomes surface
+    through GET /reward_fulfillments. This entry models the endpoints that exist
+    rather than inventing referral/reward CRUD.
+sources:
+  - url: https://dev.smile.io/api/introduction
+    type: Documentation
+    note: REST API overview, base https://api.smile.io/v1, JSON, HTTP status codes.
+  - url: https://dev.smile.io/api/authentication
+    type: Documentation
+    note: HTTP Bearer auth; merchant API key or app OAuth access token; HTTPS only.
+  - url: https://dev.smile.io/api/rate-limits
+    type: Documentation
+    note: 10 requests/second per token; HTTP 429 on exceed; limit resets after one second.
+  - url: https://dev.smile.io/schemas/rest-api.json
+    type: OpenAPI
+    note: Published OpenAPI 3.1 spec; 14 REST operations; bearerAuth security; no WebSocket.
+  - url: https://dev.smile.io/guides/apps/webhooks
+    type: Documentation
+    note: Webhooks POST event notifications to an HTTP endpoint. Not a WebSocket.
+  - url: https://smile.io/pricing
+    type: Plans
+    note: REST API access gated to Plus and Enterprise plans.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Smile.io's public API is
+    request/response REST, with webhooks as the only server-initiated push
+    (HTTP callbacks, not sockets). No AsyncAPI document was created because there
+    is no server-push WebSocket/SSE transport on Smile's own API to model.

@@ -1,0 +1,552 @@
+{
+  "info": {
+    "name": "Smile.io REST API",
+    "description": "Smile.io loyalty, rewards, and referrals REST API. Base URL https://api.smile.io/v1. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans. Grounded on the published OpenAPI spec at https://dev.smile.io/schemas/rest-api.json.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.smile.io/v1",
+      "type": "string"
+    },
+    {
+      "key": "bearerToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Retrieve a customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers/:id?include=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ],
+              "query": [
+                {
+                  "key": "include",
+                  "value": "",
+                  "disabled": true,
+                  "description": "A comma-separated list of related objects to include in the response."
+                }
+              ]
+            },
+            "description": "Retrieve a customer"
+          }
+        },
+        {
+          "name": "List customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers?email=&state=&updated_at_min=&limit=&cursor=&include=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customers"
+              ],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only customers with the provided email address."
+                },
+                {
+                  "key": "state",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only customers with the provided state."
+                },
+                {
+                  "key": "updated_at_min",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only customers updated after the provided date and time."
+                },
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true,
+                  "description": "The maximum number of customers to retrieve."
+                },
+                {
+                  "key": "cursor",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Cursor for the page of customers to retrieve."
+                },
+                {
+                  "key": "include",
+                  "value": "",
+                  "disabled": true,
+                  "description": "A comma-separated list of related objects to include in the response."
+                }
+              ]
+            },
+            "description": "List customers"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customer Identities",
+      "item": [
+        {
+          "name": "Create or update a customer identity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/customer_identities/create_or_update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "customer_identities",
+                "create_or_update"
+              ]
+            },
+            "description": "Create or update a customer identity",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_identity\": {\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@doe.com\",\n    \"distinct_id\": \"cust_19238475\",\n    \"properties\": null\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Points Transactions",
+      "item": [
+        {
+          "name": "Create a points transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/points_transactions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points_transactions"
+              ]
+            },
+            "description": "Create a points transaction",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"points_transaction\": {\n    \"customer_id\": 304169228,\n    \"points_change\": 100,\n    \"description\": \"Points correction\",\n    \"internal_note\": \"Due to issue with order #6834\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "List points transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points_transactions?customer_id=&updated_at_min=&limit=&cursor=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points_transactions"
+              ],
+              "query": [
+                {
+                  "key": "customer_id",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only points transactions with the provided Smile customer ID."
+                },
+                {
+                  "key": "updated_at_min",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only points transactions updated at or after the provided date and time."
+                },
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true,
+                  "description": "The maximum number of points transactions to retrieve."
+                },
+                {
+                  "key": "cursor",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Cursor for the page of points transactions to retrieve."
+                }
+              ]
+            },
+            "description": "List points transactions"
+          }
+        },
+        {
+          "name": "Retrieve a points transaction",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points_transactions/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points_transactions",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Retrieve a points transaction"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Points Settings",
+      "item": [
+        {
+          "name": "Get points settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points_settings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points_settings"
+              ]
+            },
+            "description": "Get points settings"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Points Products",
+      "item": [
+        {
+          "name": "Purchase a points product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/points_products/:id/purchase",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points_products",
+                ":id",
+                "purchase"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Purchase a points product",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 304169228,\n  \"points_to_spend\": 500\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "List points products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points_products?exchange_type=&page_size=&page=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points_products"
+              ],
+              "query": [
+                {
+                  "key": "exchange_type",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only points products with the provided `exchange_type`."
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true,
+                  "description": "The maximum number of points products to retrieve."
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true,
+                  "description": "The page of points products to retrieve."
+                }
+              ]
+            },
+            "description": "List points products"
+          }
+        },
+        {
+          "name": "Retrieve a points product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points_products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points_products",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Retrieve a points product"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Earning Rules",
+      "item": [
+        {
+          "name": "List earning rules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/earning_rules?limit=&cursor=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "earning_rules"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true,
+                  "description": "The maximum number of earning rules to retrieve."
+                },
+                {
+                  "key": "cursor",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Cursor for the page of earning rules to retrieve."
+                }
+              ]
+            },
+            "description": "List earning rules"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reward Fulfillments",
+      "item": [
+        {
+          "name": "List reward fulfillments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reward_fulfillments?customer_id=&fulfillment_status=&usage_status=&updated_at_min=&limit=&cursor=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reward_fulfillments"
+              ],
+              "query": [
+                {
+                  "key": "customer_id",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only reward fulfillments with the provided Smile customer ID."
+                },
+                {
+                  "key": "fulfillment_status",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only reward fulfillments whose fulfillment status matches the provided value."
+                },
+                {
+                  "key": "usage_status",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only reward fulfillments whose usage status matches the provided values."
+                },
+                {
+                  "key": "updated_at_min",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter results to only reward fulfillments updated after the provided date and time."
+                },
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true,
+                  "description": "The maximum number of reward fulfillments to retrieve."
+                },
+                {
+                  "key": "cursor",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Cursor for the page of reward fulfillments to retrieve."
+                }
+              ]
+            },
+            "description": "List reward fulfillments"
+          }
+        }
+      ]
+    },
+    {
+      "name": "VIP Tiers",
+      "item": [
+        {
+          "name": "List VIP tiers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vip_tiers?include=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vip_tiers"
+              ],
+              "query": [
+                {
+                  "key": "include",
+                  "value": "",
+                  "disabled": true,
+                  "description": "A comma-separated list of nested objects to include in the response."
+                }
+              ]
+            },
+            "description": "List VIP tiers"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Activities",
+      "item": [
+        {
+          "name": "Create an activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/activities",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "activities"
+              ]
+            },
+            "description": "Create an activity",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activity\": {\n    \"token\": \"activity_f57a9b5a8d0ac5\",\n    \"distinct_id\": \"212993\",\n    \"created_on_origin_at\": \"2024-04-04T15:10:42.030Z\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
