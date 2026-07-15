@@ -189,6 +189,8 @@ apis:
     earning rule - the programmatic way to reward behavior that happens outside
     Smile's built-in triggers. Endpoint - POST /activities.
 common:
+- type: AgenticAccess
+  url: agentic-access/smile-io-agentic-access.yml
 - type: DomainSecurity
   url: security/smile-io-domain-security.yml
 - type: Authentication
