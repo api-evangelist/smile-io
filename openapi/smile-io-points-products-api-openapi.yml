@@ -1,0 +1,348 @@
+openapi: 3.1.0
+info:
+  title: Smile.io REST Activities Points Products API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+security:
+- bearerAuth: []
+tags:
+- name: Points Products
+  description: Redeemable products a customer can purchase with points.
+paths:
+  /points_products/{id}/purchase:
+    post:
+      summary: Purchase a points product
+      operationId: post__points_products_id_purchase
+      tags:
+      - Points Products
+      responses:
+        '201':
+          description: The points product was successfully purchased.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_purchase:
+                    $ref: '#/components/schemas/PointsPurchase'
+      description: Exchanges a customer's points for a reward by purchasing a points product.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the points product to purchase.
+          example: 132456921
+        description: ID of the points product to purchase.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                  description: ID of the customer who is purchasing the points product.
+                  example: 304169228
+                points_to_spend:
+                  type: integer
+                  description: The number of points that will be spent on behalf of the customer. Only applies when purchasing a points product whose `exchange_type` is `variable`, otherwise should be left blank.
+                  example: 500
+              required:
+              - customer_id
+  /points_products:
+    get:
+      summary: List points products
+      operationId: get__points_products
+      tags:
+      - Points Products
+      responses:
+        '200':
+          description: The points products were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PointsProduct'
+      description: Retrieves a list of points products based on the specified filters.
+      parameters:
+      - name: exchange_type
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only points products with the provided `exchange_type`.
+          enum:
+          - fixed
+          - variable
+          example: variable
+        description: Filter results to only points products with the provided `exchange_type`.
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of points products to retrieve.
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of points products to retrieve.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The page of points products to retrieve.
+          default: 1
+        description: The page of points products to retrieve.
+  /points_products/{id}:
+    get:
+      summary: Retrieve a points product
+      operationId: get__points_products_id
+      tags:
+      - Points Products
+      responses:
+        '200':
+          description: The points product was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_product:
+                    $ref: '#/components/schemas/PointsProduct'
+      description: Retrieves a single points product by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the points product to retrieve.
+        description: ID of the points product to retrieve.
+components:
+  schemas:
+    PointsProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 132456921
+          description: Unique identifier for the points product.
+        exchange_type:
+          type: string
+          enum:
+          - fixed
+          - variable
+          example: variable
+          description: How points are exchanged for the reward.
+        exchange_description:
+          type: string
+          example: 100 Points = $1 off
+          description: A human readable description of how a customer spends points on this reward. It includes the points branding for the program.
+        points_price:
+          type:
+          - integer
+          - 'null'
+          description: Number of points needed to purchase this reward. Only present when `exchange_type` is `fixed`.
+        variable_points_step:
+          type:
+          - integer
+          - 'null'
+          example: 100
+          description: Imagine there's a points slider your customers can drag to spend more or less points on a reward. The `variable_points_step` represents the number of points between each notch on the slider. E.g. If this value is set to 100, it means customers can spend their points in increments of 100. They will drag the slider from 100, 200, 300, etc. Only present when `exchange_type` is `variable`.
+        variable_points_step_reward_value:
+          type:
+          - integer
+          - 'null'
+          example: 1
+          description: Imagine there's a points slider your customers can drag to spend more or less points on a reward. The `variable_points_step_reward_value` represents the corresponding reward value for each step increment on the slider. E.g. if this value is set to 1, and the variable_points_step is set to 100, the customer will get $1 off for every 100 points they spend. Only present when `exchange_type` is `variable.`
+        variable_points_min:
+          type:
+          - integer
+          - 'null'
+          example: 100
+          description: The minimum amount of points the customer must spend to get this reward. Normally the minimum value of the points slider. Only present when `exchange_type` is `variable`.
+        variable_points_max:
+          type:
+          - integer
+          - 'null'
+          example: 5000
+          description: The maximum amount of points the customer must spend to get this reward. Normally the maximum value of the points slider. Only present when `exchange_type` is `variable`.
+        reward:
+          $ref: '#/components/schemas/Reward'
+          description: A nested Reward object representing the reward issued to the customer when they purchase the points product.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the points product was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the points product was last updated.
+    RewardFulfillment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 625478984
+          description: Unique identifier for the reward fulfillment.
+        name:
+          type: string
+          example: $5 off coupon
+          description: The name of the reward fulfillment.
+        code:
+          type: string
+          example: 5off-e26d02e39149
+          description: A unique code for the customer to use or apply the reward fulfillment. This is commonly a discount code the customer applies at checkout on their next order, but it can be a unique code they use for other purposes like accessing an exclusive page on the merchant's website.
+        customer_id:
+          type: integer
+          example: 304169228
+          description: The ID of the customer that the reward fulfillment belongs to.
+        fulfillment_status:
+          type: string
+          enum:
+          - pending
+          - issued
+          - cancelled
+          - failed
+          example: issued
+          description: The fulfillment status of the reward fulfillment, indicating whether the reward is available to the customer.
+        image_url:
+          type: string
+          example: https://platform-images.smilecdn.co/9283449.png
+          description: An image for the reward fulfillment.
+        action_text:
+          type:
+          - string
+          - 'null'
+          description: A short call-to-action style text, appropriate for use in buttons or links, guiding the customer on how to use the reward fulfillment. This field may be blank
+        action_url:
+          type:
+          - string
+          - 'null'
+          description: A URL destination guiding the customer on how to use the reward, often paired with the `action_text` for use in buttons or links. This field may be blank.
+        usage_instructions:
+          type:
+          - string
+          - 'null'
+          example: Use this discount code on your next order!
+          description: A description of how the customer can use or apply the reward fulfillment.
+        terms_and_conditions:
+          type:
+          - string
+          - 'null'
+          example: Reward expires on June 7, 2025. Reward can only be used on purchase of $50 or more. Reward can only be used on select product collections.
+          description: A description of the reward fulfillment's limitations or restrictions. When the reward is a discount code, this commonly includes expiry date, minimum order amounts, or applicability to specific product collections.
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2025-06-07T23:59:59.999Z'
+          description: The date and time when the reward fulfillment expires. When the reward is a discount code, this refers to the expiry date of the discount, and a `null` value indicates that the discount code does not expire.
+        usage_status:
+          type: string
+          enum:
+          - used
+          - unused
+          - untracked
+          example: unused
+          description: The usage status of the reward fulfillment, indicating whether the generated reward has been used by the customer.
+        used_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when the reward fulfillment was used by the customer. If the reward fulfillments does not support usage tracking, this field may be `null` even after the reward fulfillment has been used.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the reward fulfillment was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the reward fulfillment was last updated.
+    PointsPurchase:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the points purchase.
+          example: 665523890
+        customer_id:
+          type: integer
+          description: The ID of the customer who performed the points purchase.
+          example: 304169228
+        points_product_id:
+          type: integer
+          description: The ID of the points product that was purchased.
+          example: 132456921
+        points_spent:
+          type: integer
+          description: The total points spent by the customer.
+          example: 500
+          minimum: 0
+        reward_fulfillment:
+          $ref: '#/components/schemas/RewardFulfillment'
+          description: A record of a reward that was issued to a customer.
+        created_at:
+          type: string
+          description: The date and time when the points purchase was created.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+        updated_at:
+          type: string
+          description: The date and time when the points purchase was last updated.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+    Reward:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 924565472
+          description: Unique identifier for the reward.
+        name:
+          type: string
+          example: Order discount
+          description: The name of the reward.
+        description:
+          type: string
+          description: A description of the reward.
+        image_url:
+          type: string
+          example: https://platform-images.smilecdn.co/3755938.png
+          description: An image for the reward.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was last updated.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

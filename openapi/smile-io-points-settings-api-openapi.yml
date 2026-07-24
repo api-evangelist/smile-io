@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  title: Smile.io REST Activities Points Settings API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+security:
+- bearerAuth: []
+tags:
+- name: Points Settings
+  description: Program-level points configuration (currency name, ratios).
+paths:
+  /points_settings:
+    get:
+      summary: Get points settings
+      operationId: get__points_settings
+      tags:
+      - Points Settings
+      responses:
+        '200':
+          description: The points settings were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_settings:
+                    $ref: '#/components/schemas/PointsSettings'
+      description: Retrieves the configuration for the account's points program.
+components:
+  schemas:
+    PointsSettings:
+      type: object
+      properties:
+        points_label:
+          type: object
+          properties:
+            one:
+              type: string
+              example: Coin
+              description: The singular unit for a point.
+            other:
+              type: string
+              example: Coins
+              description: The unit for zero or many points.
+          description: The branding of the account's points currency.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

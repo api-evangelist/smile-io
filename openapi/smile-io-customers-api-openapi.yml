@@ -1,0 +1,266 @@
+openapi: 3.1.0
+info:
+  title: Smile.io REST Activities Customers API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+security:
+- bearerAuth: []
+tags:
+- name: Customers
+  description: Loyalty program members and their point balances and state.
+paths:
+  /customers/{id}:
+    get:
+      summary: Retrieve a customer
+      operationId: get__customers_id
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: The customer was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer:
+                    $ref: '#/components/schemas/Customer'
+      description: Retrieves a single customer by ID.
+      parameters:
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: string
+          description: A comma-separated list of related objects to include in the response.
+          enum:
+          - vip_status
+          - vip_status.vip_tier
+          - vip_status.next_vip_tier
+        description: A comma-separated list of related objects to include in the response.
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the customer (in Smile) to retrieve.
+        description: ID of the customer (in Smile) to retrieve.
+  /customers:
+    get:
+      summary: List customers
+      operationId: get__customers
+      tags:
+      - Customers
+      responses:
+        '200':
+          description: The customers were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customer'
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+      description: Retrieves a list of customers based on a set of provided filters.
+      parameters:
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only customers with the provided email address.
+        description: Filter results to only customers with the provided email address.
+      - name: state
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only customers with the provided state.
+          enum:
+          - candidate
+          - member
+          - disabled
+        description: Filter results to only customers with the provided state.
+      - name: updated_at_min
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only customers updated after the provided date and time.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+        description: Filter results to only customers updated after the provided date and time.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of customers to retrieve.
+          example: 1
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of customers to retrieve.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Cursor for the page of customers to retrieve.
+        description: Cursor for the page of customers to retrieve.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: string
+          description: A comma-separated list of related objects to include in the response.
+          enum:
+          - vip_status
+        description: A comma-separated list of related objects to include in the response.
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 304169228
+          description: Unique identifier for the customer in Smile.
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: Jane
+          description: The customer's first name.
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Doe
+          description: The customer's last name.
+        email:
+          type: string
+          example: jane@doe.com
+          description: The customer's email address.
+        state:
+          type: string
+          enum:
+          - candidate
+          - member
+          - disabled
+          example: member
+          description: The customer's state in the loyalty program.
+        date_of_birth:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '1004-05-27'
+          description: The customer's birthday. A year value of `1004` means only the customer's birth day and month was entered.
+        points_balance:
+          type: integer
+          example: 300
+          description: The customer's current points balance.
+        referral_url:
+          type: string
+          example: http://i.refs.cc/9qr5Pw
+          description: The customer's unique referral URL. Used to share with friends as part of the referral program.
+        vip_tier_id:
+          type:
+          - integer
+          - 'null'
+          example: 426715794
+          deprecated: true
+          description: The ID of the customer's current VIP tier. This field is now deprecated, use the nested `vip_status.vip_tier_id` instead.
+        vip_status:
+          type: object
+          properties:
+            vip_tier_id:
+              type:
+              - integer
+              - 'null'
+              example: 426715794
+              description: The ID of the customer's current VIP tier.
+            vip_tier_expires_at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              example: '2026-12-31T23:59:59.999Z'
+              description: The date the customer's current VIP tier expires. For all-time VIP programs, this will be `null` because tiers do not expire.
+            progress_value:
+              type:
+              - number
+              - 'null'
+              format: float
+              example: 300
+              description: The amount the customer has already spent or earned within the current VIP period.
+            current_vip_period_end:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              example: '2025-12-31T23:59:59.999Z'
+              description: The end date for the current VIP period. For calendar-year VIP programs, this will be the end of the current calendar year. For all-time VIP programs, this will be `null`.
+            delta_to_retain_vip_tier:
+              type:
+              - number
+              - 'null'
+              format: float
+              description: The additional amount the customer must spend or earn before the end of the current VIP period to retain their VIP tier until the end of the next VIP period. For all-time VIP programs or if the customer has already spent or earned enough this period to retain their current VIP tier, this will be `null`.
+            next_vip_tier_id:
+              type:
+              - integer
+              - 'null'
+              example: 426715799
+              description: The ID of the next VIP tier that the customer will move into if they meet the minimum spending or earning requirement. If the customer is already in the highest tier, this will be `null`.
+            delta_to_next_vip_tier:
+              type:
+              - number
+              - 'null'
+              format: float
+              example: 200
+              description: The amount the customer must spend or earn within the current VIP period to reach the next VIP tier. If the customer is already in the highest tier, this will be `null`.
+          description: An object containing details about the customer's status within the VIP program.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the customer was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2025-04-04T15:10:42.030Z'
+          description: The date and time when the customer was last updated.
+    PaginationMetadata:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
+          description: A cursor value that when present, can be used to retrieve the next page of results.
+        previous_cursor:
+          type:
+          - string
+          - 'null'
+          example: ''
+          description: A cursor value that when present, can be used to retrieve the previous page of results.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

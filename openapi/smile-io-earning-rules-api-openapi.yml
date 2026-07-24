@@ -1,0 +1,188 @@
+openapi: 3.1.0
+info:
+  title: Smile.io REST Activities Earning Rules API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+security:
+- bearerAuth: []
+tags:
+- name: Earning Rules
+  description: Rules that define how customers earn points.
+paths:
+  /earning_rules:
+    get:
+      summary: List earning rules
+      operationId: get__earning_rules
+      tags:
+      - Earning Rules
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  earning_rules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EarningRule'
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+      description: Retrieves a list of enabled earning rules.
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of earning rules to retrieve.
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of earning rules to retrieve.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Cursor for the page of earning rules to retrieve.
+        description: Cursor for the page of earning rules to retrieve.
+components:
+  schemas:
+    PaginationMetadata:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
+          description: A cursor value that when present, can be used to retrieve the next page of results.
+        previous_cursor:
+          type:
+          - string
+          - 'null'
+          example: ''
+          description: A cursor value that when present, can be used to retrieve the previous page of results.
+    EarningRule:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 739246764
+          description: Unique identifier for the earning rule.
+        name:
+          type: string
+          example: Place an order
+          description: The display name of the earning rule.
+        image_url:
+          type: string
+          example: https://platform.smile.io/images/earning/order-online.svg
+          description: The image of the earning rule.
+        action_text:
+          type:
+          - string
+          - 'null'
+          example: null
+          description: The label for a clickable element (e.g. a call to action) that allows the customer to complete the rewardable action. When `null`, no clickable element should be displayed.
+        action_url:
+          type:
+          - string
+          - 'null'
+          example: null
+          description: The destination URL for a clickable element (e.g. a call to action) that allows the customer to complete the rewardable action. When `null`, no clickable element should be displayed.
+        restricted_to_vip_tier_ids:
+          type: array
+          items:
+            type: integer
+            example: 426715799
+          description: A list of VIP tier IDs. When present, the earning rule only applies to customers who currently belong to at least one of the specified VIP tiers. If the array is empty, the earning rule applies to all VIP tiers.
+        reward:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - points
+              example: points
+              description: The type of reward that will be issued.
+          description: The reward that will be issued to the customer when the rewardable action is completed.
+        reward_value:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - variable
+              - fixed
+              example: variable
+              description: The way that the reward's value will be computed.
+            variable:
+              type: object
+              properties:
+                value:
+                  type: number
+                  format: float
+                  example: 5
+                  description: The amount of reward value issued per unit (e.g. if the reward is 5 Points per $1 spent, this field would be `5.0`).
+                per_amount:
+                  type: number
+                  format: float
+                  example: 1
+                  description: The amount of action needed to earn the specified value (e.g. if the reward is 5 Points per $1 spent, this field would be `1.0`).
+              description: The configuration for a variable reward value (e.g. points per dollar spent). Only present when type is `variable`, otherwise this key will be omitted from response.
+            fixed:
+              type: object
+              properties:
+                value:
+                  type: number
+                  format: float
+                  example: 100
+                  description: The value of the reward that will be issued.
+              description: The configuration for a fixed reward value (e.g. 5 points). Only present when type is `fixed`, otherwise this key will be omitted from response.
+          description: The value of the reward that will be issued to the customer when the rewardable action is completed.
+        earning_limit:
+          type:
+          - object
+          - 'null'
+          properties:
+            max:
+              type: integer
+              example: 5
+              description: Maximum number of times a customer can complete the rule within the specified timeframe.
+            type:
+              type: string
+              enum:
+              - rolling
+              - lifetime
+              example: rolling
+              description: The type of timeframe the limit applies to.
+            rolling:
+              type: object
+              properties:
+                unit:
+                  type: string
+                  enum:
+                  - day
+                  example: day
+                  description: The rolling window's unit (e.g. if the window is 30 days, this field will have a value of `day`).
+                unit_count:
+                  type: integer
+                  example: 30
+                  description: The number of units in the rolling window (e.g. if the window is 30 days, this field will have a value of `30`).
+              description: The configuration for a rolling window of time. Only present when type is `rolling`, otherwise this key will be omitted from response.
+          description: A restriction on the number of times the rewardable action can be completed. If no limit exists, will be `null`.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

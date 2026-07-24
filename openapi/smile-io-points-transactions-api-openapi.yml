@@ -1,0 +1,202 @@
+openapi: 3.1.0
+info:
+  title: Smile.io REST Activities Points Transactions API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+security:
+- bearerAuth: []
+tags:
+- name: Points Transactions
+  description: Point balance changes - earn, redeem, adjust - for a customer.
+paths:
+  /points_transactions:
+    post:
+      summary: Create a points transaction
+      operationId: post__points_transactions
+      tags:
+      - Points Transactions
+      responses:
+        '201':
+          description: The points transaction was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_transaction:
+                    $ref: '#/components/schemas/PointsTransaction'
+      description: Add or remove points from a customer's points balance by creating a points transaction.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                points_transaction:
+                  type: object
+                  properties:
+                    customer_id:
+                      type: integer
+                      description: The ID of the customer whose balance this points transaction applies to.
+                      example: 304169228
+                    points_change:
+                      type: integer
+                      description: The number of points added or removed from the customer's points balance. The value is positive if points were added to the customer's balance and negative if points were deducted.
+                      example: 100
+                    description:
+                      type: string
+                      description: A message visible to the customer that describes the reason for the points change.
+                      example: Points correction
+                    internal_note:
+                      type: string
+                      description: A note that is visible to the merchant. This note should never be visible to customers.
+                      example: 'Due to issue with order #6834'
+                  required:
+                  - customer_id
+                  - points_change
+              required:
+              - points_transaction
+    get:
+      summary: List points transactions
+      operationId: get__points_transactions
+      tags:
+      - Points Transactions
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PointsTransaction'
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+      description: Retrieves a list of points transactions.
+      parameters:
+      - name: customer_id
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Filter results to only points transactions with the provided Smile customer ID.
+        description: Filter results to only points transactions with the provided Smile customer ID.
+      - name: updated_at_min
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter results to only points transactions updated at or after the provided date and time.
+          format: date-time
+        description: Filter results to only points transactions updated at or after the provided date and time.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: The maximum number of points transactions to retrieve.
+          example: 1
+          minimum: 1
+          maximum: 250
+          default: 50
+        description: The maximum number of points transactions to retrieve.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Cursor for the page of points transactions to retrieve.
+        description: Cursor for the page of points transactions to retrieve.
+  /points_transactions/{id}:
+    get:
+      summary: Retrieve a points transaction
+      operationId: get__points_transactions_id
+      tags:
+      - Points Transactions
+      responses:
+        '200':
+          description: The points transaction was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_transaction:
+                    $ref: '#/components/schemas/PointsTransaction'
+      description: Retrieves a single points transaction by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          description: ID of the points transaction to retrieve.
+        description: ID of the points transaction to retrieve.
+components:
+  schemas:
+    PointsTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 825673452
+          description: Unique identifier for the points transaction.
+        customer_id:
+          type: integer
+          example: 304169228
+          description: The ID of the customer whose balance this points transaction applies to.
+        points_change:
+          type: integer
+          example: 100
+          description: The number of points added or removed from the customer's points balance. The value is positive if points were added to the customer's balance and negative if points were deducted.
+        description:
+          type: string
+          example: Points correction
+          description: A message visible to the customer that describes the reason for the points change.
+        internal_note:
+          type:
+          - string
+          - 'null'
+          example: 'Due to issue with order #6834'
+          description: A note that is visible to the merchant. This note should never be visible to customers.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the points transaction was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the points transaction was last updated.
+    PaginationMetadata:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
+          description: A cursor value that when present, can be used to retrieve the next page of results.
+        previous_cursor:
+          type:
+          - string
+          - 'null'
+          example: ''
+          description: A cursor value that when present, can be used to retrieve the previous page of results.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,119 @@
+openapi: 3.1.0
+info:
+  title: Smile.io REST Activities VIP Tiers API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+security:
+- bearerAuth: []
+tags:
+- name: VIP Tiers
+  description: VIP program tiers and their thresholds and perks.
+paths:
+  /vip_tiers:
+    get:
+      summary: List VIP tiers
+      operationId: get__vip_tiers
+      tags:
+      - VIP Tiers
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vip_tiers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VipTier'
+      description: Retrieves a list of VIP tiers.
+      parameters:
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: string
+          description: A comma-separated list of nested objects to include in the response.
+          enum:
+          - perks
+          - entry_rewards
+        description: A comma-separated list of nested objects to include in the response.
+components:
+  schemas:
+    VipTier:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 426715799
+          description: Unique identifier for the VIP tier.
+        name:
+          type: string
+          example: Gold
+          description: The display name of the VIP tier.
+        image_url:
+          type: string
+          example: https://platform.smile.io/v1/images/vip_tiers/vip-tier-3.svg
+          description: The image of the VIP tier.
+        milestone:
+          type: number
+          format: float
+          example: 500
+          description: The threshold that a customer must reach to be eligible for the VIP tier. Represents either an amount of points or a dollar amount, depending on the loyalty program's configuration.
+        perks:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Early access to new product releases
+                description: A description of the benefit.
+          description: A set of nested objects representing the ongoing benefits a customer is entitled to when they are in the VIP tier.
+        entry_rewards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reward'
+          description: A set of nested Reward objects representing the rewards that are issued to a customer when they enter the VIP tier.
+    Reward:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 924565472
+          description: Unique identifier for the reward.
+        name:
+          type: string
+          example: Order discount
+          description: The name of the reward.
+        description:
+          type: string
+          description: A description of the reward.
+        image_url:
+          type: string
+          example: https://platform-images.smilecdn.co/3755938.png
+          description: An image for the reward.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was last updated.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

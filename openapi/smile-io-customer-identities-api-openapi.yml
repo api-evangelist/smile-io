@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: Smile.io REST Activities Customer Identities API
+  description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
+  version: 1.0.0
+  contact:
+    name: Smile.io Developer Support
+    url: https://dev.smile.io
+  license:
+    name: Proprietary
+    url: https://smile.io/terms-of-service
+servers:
+- url: https://api.smile.io/v1
+  description: Smile.io REST API
+security:
+- bearerAuth: []
+tags:
+- name: Customer Identities
+  description: Create or update a customer from an external system identity.
+paths:
+  /customer_identities/create_or_update:
+    post:
+      summary: Create or update a customer identity
+      operationId: post__customer_identities_create_or_update
+      tags:
+      - Customer Identities
+      responses:
+        '200':
+          description: Customer identity successfully updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer_identity:
+                    $ref: '#/components/schemas/CustomerIdentity'
+        '201':
+          description: Customer identity successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer_identity:
+                    $ref: '#/components/schemas/CustomerIdentity'
+      description: Creates a new customer identity or updates an existing one.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_identity:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                      description: The first name of the customer in the external system.
+                      example: Jane
+                    last_name:
+                      type: string
+                      description: The last name of the customer in the external system.
+                      example: Doe
+                    email:
+                      type: string
+                      description: The email of the customer in the external system.
+                      format: email
+                      example: jane@doe.com
+                    distinct_id:
+                      type: string
+                      description: The unique identifier for the customer in the external system.
+                      example: cust_19238475
+                    properties:
+                      type: object
+                      description: A restricted hash of additional attributes for the customer identity. Keys are allowlisted on a per-integration basis.
+                  required:
+                  - email
+                  - distinct_id
+              required:
+              - customer_identity
+components:
+  schemas:
+    CustomerIdentity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 863291377
+          description: Unique identifier for the customer identity in Smile.
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: Jane
+          description: The first name of the customer in the external system.
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Doe
+          description: The last name of the customer in the external system.
+        email:
+          type: string
+          format: email
+          example: jane@doe.com
+          description: The email of the customer in the external system.
+        distinct_id:
+          type: string
+          example: cust_19238475
+          description: The unique identifier for the customer in the external system.
+        properties:
+          type: object
+          description: A restricted hash of additional attributes for the customer identity. Keys are allowlisted on a per-integration basis.
+        customer_id:
+          type: integer
+          description: The ID of the customer in Smile that this customer identity is linked to.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
