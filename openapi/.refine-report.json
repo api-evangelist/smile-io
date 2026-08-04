@@ -1,0 +1,30 @@
+{
+  "provider": "smile-io",
+  "sources": [
+    "smile-io-activities-api-openapi.yml",
+    "smile-io-customer-identities-api-openapi.yml",
+    "smile-io-customers-api-openapi.yml",
+    "smile-io-earning-rules-api-openapi.yml",
+    "smile-io-points-products-api-openapi.yml",
+    "smile-io-points-settings-api-openapi.yml",
+    "smile-io-points-transactions-api-openapi.yml",
+    "smile-io-reward-fulfillments-api-openapi.yml",
+    "smile-io-vip-tiers-api-openapi.yml"
+  ],
+  "outputs": [
+    "smile-io-activities-api-openapi.yml",
+    "smile-io-customer-identities-api-openapi.yml",
+    "smile-io-customers-api-openapi.yml",
+    "smile-io-earning-rules-api-openapi.yml",
+    "smile-io-points-products-api-openapi.yml",
+    "smile-io-points-settings-api-openapi.yml",
+    "smile-io-points-transactions-api-openapi.yml",
+    "smile-io-reward-fulfillments-api-openapi.yml",
+    "smile-io-vip-tiers-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
