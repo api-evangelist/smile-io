@@ -1,0 +1,140 @@
+{
+  "item": [
+    {
+      "id": "404cde53-2f40-47ae-847e-efaf9a020199",
+      "name": "Earning Rules",
+      "description": {
+        "content": "Rules that define how customers earn points.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "572ae7e7-8ad9-41e1-af6b-5e90bdf596ed",
+          "name": "List earning rules",
+          "request": {
+            "name": "List earning rules",
+            "description": {
+              "content": "Retrieves a list of enabled earning rules.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "earning_rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of earning rules to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Cursor for the page of earning rules to retrieve."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4ef9835e-8aa9-4724-93ba-83dbe1b9cf57",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "earning_rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"earning_rules\": [\n    {\n      \"id\": 739246764,\n      \"name\": \"Place an order\",\n      \"image_url\": \"https://platform.smile.io/images/earning/order-online.svg\",\n      \"action_text\": \"string\",\n      \"action_url\": \"string\",\n      \"restricted_to_vip_tier_ids\": [\n        426715799,\n        426715799\n      ],\n      \"reward\": {\n        \"type\": \"points\"\n      },\n      \"reward_value\": {\n        \"type\": \"variable\",\n        \"variable\": {\n          \"value\": 5,\n          \"per_amount\": 1\n        },\n        \"fixed\": {\n          \"value\": 100\n        }\n      },\n      \"earning_limit\": {\n        \"max\": 5,\n        \"type\": \"rolling\",\n        \"rolling\": {\n          \"unit\": \"day\",\n          \"unit_count\": 30\n        }\n      }\n    },\n    {\n      \"id\": 739246764,\n      \"name\": \"Place an order\",\n      \"image_url\": \"https://platform.smile.io/images/earning/order-online.svg\",\n      \"action_text\": \"string\",\n      \"action_url\": \"string\",\n      \"restricted_to_vip_tier_ids\": [\n        426715799,\n        426715799\n      ],\n      \"reward\": {\n        \"type\": \"points\"\n      },\n      \"reward_value\": {\n        \"type\": \"variable\",\n        \"variable\": {\n          \"value\": 5,\n          \"per_amount\": 1\n        },\n        \"fixed\": {\n          \"value\": 100\n        }\n      },\n      \"earning_limit\": {\n        \"max\": 5,\n        \"type\": \"rolling\",\n        \"rolling\": {\n          \"unit\": \"day\",\n          \"unit_count\": 30\n        }\n      }\n    }\n  ],\n  \"metadata\": {\n    \"next_cursor\": \"aWQ6MixkaXJlY3Rpb246bmV4dA==\",\n    \"previous_cursor\": \"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smile.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "05b899e9-32b7-4c42-8e81-2e0f86fe2c94",
+    "name": "Smile.io REST Activities Earning Rules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.\n\nContact Support:\n Name: Smile.io Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

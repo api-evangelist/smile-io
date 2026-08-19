@@ -1,0 +1,194 @@
+{
+  "item": [
+    {
+      "id": "3fca705a-77fa-45ce-93fd-cc80f8814451",
+      "name": "Customer Identities",
+      "description": {
+        "content": "Create or update a customer from an external system identity.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e63e74f4-cad4-4b7e-8d7b-961864f2095f",
+          "name": "Create or update a customer identity",
+          "request": {
+            "name": "Create or update a customer identity",
+            "description": {
+              "content": "Creates a new customer identity or updates an existing one.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customer_identities",
+                "create_or_update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_identity\": {\n    \"email\": \"<email>\",\n    \"distinct_id\": \"<string>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"properties\": \"<object>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "63605baa-bd01-4246-8256-8c3eab02a9c9",
+              "name": "Customer identity successfully updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customer_identities",
+                    "create_or_update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer_identity\": {\n    \"email\": \"jane@doe.com\",\n    \"distinct_id\": \"cust_19238475\",\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"properties\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"customer_identity\": {\n    \"id\": 863291377,\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@doe.com\",\n    \"distinct_id\": \"cust_19238475\",\n    \"properties\": {},\n    \"customer_id\": 3442\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e86f731-25a3-4ff1-a9b5-5ca39d478e83",
+              "name": "Customer identity successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customer_identities",
+                    "create_or_update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer_identity\": {\n    \"email\": \"jane@doe.com\",\n    \"distinct_id\": \"cust_19238475\",\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"properties\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"customer_identity\": {\n    \"id\": 863291377,\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@doe.com\",\n    \"distinct_id\": \"cust_19238475\",\n    \"properties\": {},\n    \"customer_id\": 3442\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smile.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2b10c940-f153-4662-afa1-ed3fb1733845",
+    "name": "Smile.io REST Activities Customer Identities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.\n\nContact Support:\n Name: Smile.io Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

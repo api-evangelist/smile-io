@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/activities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a record of a customer having performed a given action."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

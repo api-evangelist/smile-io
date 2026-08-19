@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities Points Products API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Points Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Purchase a points product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/points_products/:id/purchase",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the points product to purchase."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exchanges a customer's points for a reward by purchasing a points product."
+        },
+        {
+          "info": {
+            "name": "List points products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_products",
+            "params": [
+              {
+                "name": "exchange_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only points products with the provided `exchange_type`."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of points products to retrieve."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of points products to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of points products based on the specified filters."
+        },
+        {
+          "info": {
+            "name": "Retrieve a points product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the points product to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a single points product by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

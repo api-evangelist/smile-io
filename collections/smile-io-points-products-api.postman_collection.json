@@ -1,0 +1,366 @@
+{
+  "item": [
+    {
+      "id": "8d34d5df-d98d-4b4a-878a-beb048aa0a3b",
+      "name": "Points Products",
+      "description": {
+        "content": "Redeemable products a customer can purchase with points.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "767b8457-7be3-4fe9-9932-5d80f338d186",
+          "name": "Purchase a points product",
+          "request": {
+            "name": "Purchase a points product",
+            "description": {
+              "content": "Exchanges a customer's points for a reward by purchasing a points product.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "points_products",
+                ":id",
+                "purchase"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the points product to purchase."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": \"<integer>\",\n  \"points_to_spend\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "14f07639-5020-46da-af82-362ed8e38d23",
+              "name": "The points product was successfully purchased.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "points_products",
+                    ":id",
+                    "purchase"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the points product to purchase."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer_id\": 304169228,\n  \"points_to_spend\": 500\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"points_purchase\": {\n    \"id\": 665523890,\n    \"customer_id\": 304169228,\n    \"points_product_id\": 132456921,\n    \"points_spent\": 500,\n    \"reward_fulfillment\": {\n      \"id\": 625478984,\n      \"name\": \"$5 off coupon\",\n      \"code\": \"5off-e26d02e39149\",\n      \"customer_id\": 304169228,\n      \"fulfillment_status\": \"issued\",\n      \"image_url\": \"https://platform-images.smilecdn.co/9283449.png\",\n      \"action_text\": \"string\",\n      \"action_url\": \"string\",\n      \"usage_instructions\": \"Use this discount code on your next order!\",\n      \"terms_and_conditions\": \"Reward expires on June 7, 2025. Reward can only be used on purchase of $50 or more. Reward can only be used on select product collections.\",\n      \"expires_at\": \"2025-06-07T23:59:59.999Z\",\n      \"usage_status\": \"unused\",\n      \"used_at\": \"2014-03-29T11:19:26.727Z\",\n      \"created_at\": \"2024-12-07T20:15:27.893Z\",\n      \"updated_at\": \"2024-12-07T20:15:27.893Z\"\n    },\n    \"created_at\": \"2024-04-04T15:10:42.030Z\",\n    \"updated_at\": \"2024-04-04T15:10:42.030Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aee9cc10-caa1-4104-9061-adc424c431b1",
+          "name": "List points products",
+          "request": {
+            "name": "List points products",
+            "description": {
+              "content": "Retrieves a list of points products based on the specified filters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "points_products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "exchange_type",
+                  "value": "<string>",
+                  "description": "Filter results to only points products with the provided `exchange_type`."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "50",
+                  "description": "The maximum number of points products to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page of points products to retrieve."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cb9e37a2-c606-49e1-87a1-000ba811e76c",
+              "name": "The points products were successfully retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "points_products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "exchange_type",
+                      "value": "variable"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "50"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"points_products\": [\n    {\n      \"id\": 132456921,\n      \"exchange_type\": \"variable\",\n      \"exchange_description\": \"100 Points = $1 off\",\n      \"points_price\": 6362,\n      \"variable_points_step\": 100,\n      \"variable_points_step_reward_value\": 1,\n      \"variable_points_min\": 100,\n      \"variable_points_max\": 5000,\n      \"reward\": {\n        \"id\": 924565472,\n        \"name\": \"Order discount\",\n        \"description\": \"string\",\n        \"image_url\": \"https://platform-images.smilecdn.co/3755938.png\",\n        \"created_at\": \"2024-04-04T15:10:42.030Z\",\n        \"updated_at\": \"2024-04-04T15:10:42.030Z\"\n      },\n      \"created_at\": \"2024-04-04T15:10:42.030Z\",\n      \"updated_at\": \"2024-04-04T15:10:42.030Z\"\n    },\n    {\n      \"id\": 132456921,\n      \"exchange_type\": \"variable\",\n      \"exchange_description\": \"100 Points = $1 off\",\n      \"points_price\": 811,\n      \"variable_points_step\": 100,\n      \"variable_points_step_reward_value\": 1,\n      \"variable_points_min\": 100,\n      \"variable_points_max\": 5000,\n      \"reward\": {\n        \"id\": 924565472,\n        \"name\": \"Order discount\",\n        \"description\": \"string\",\n        \"image_url\": \"https://platform-images.smilecdn.co/3755938.png\",\n        \"created_at\": \"2024-04-04T15:10:42.030Z\",\n        \"updated_at\": \"2024-04-04T15:10:42.030Z\"\n      },\n      \"created_at\": \"2024-04-04T15:10:42.030Z\",\n      \"updated_at\": \"2024-04-04T15:10:42.030Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1daf5f4d-2c3f-4d37-918a-7db6235395fe",
+          "name": "Retrieve a points product",
+          "request": {
+            "name": "Retrieve a points product",
+            "description": {
+              "content": "Retrieves a single points product by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "points_products",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the points product to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a9cb8387-e642-432c-b358-08b7904f5c37",
+              "name": "The points product was successfully retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "points_products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the points product to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"points_product\": {\n    \"id\": 132456921,\n    \"exchange_type\": \"variable\",\n    \"exchange_description\": \"100 Points = $1 off\",\n    \"points_price\": 852,\n    \"variable_points_step\": 100,\n    \"variable_points_step_reward_value\": 1,\n    \"variable_points_min\": 100,\n    \"variable_points_max\": 5000,\n    \"reward\": {\n      \"id\": 924565472,\n      \"name\": \"Order discount\",\n      \"description\": \"string\",\n      \"image_url\": \"https://platform-images.smilecdn.co/3755938.png\",\n      \"created_at\": \"2024-04-04T15:10:42.030Z\",\n      \"updated_at\": \"2024-04-04T15:10:42.030Z\"\n    },\n    \"created_at\": \"2024-04-04T15:10:42.030Z\",\n    \"updated_at\": \"2024-04-04T15:10:42.030Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smile.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "54091147-e6f5-49bf-a290-5b0ad6ad6e28",
+    "name": "Smile.io REST Activities Points Products API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.\n\nContact Support:\n Name: Smile.io Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

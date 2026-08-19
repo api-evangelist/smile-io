@@ -1,0 +1,289 @@
+{
+  "item": [
+    {
+      "id": "a071c12e-e3da-4d0d-a126-1acd20ccef9f",
+      "name": "Customers",
+      "description": {
+        "content": "Loyalty program members and their point balances and state.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "efeafd09-8530-4bca-ab64-f9d84c6569b7",
+          "name": "Retrieve a customer",
+          "request": {
+            "name": "Retrieve a customer",
+            "description": {
+              "content": "Retrieves a single customer by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "A comma-separated list of related objects to include in the response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the customer (in Smile) to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9a96f494-b5ff-4b89-bef3-4b23c5c32b83",
+              "name": "The customer was successfully retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the customer (in Smile) to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"customer\": {\n    \"id\": 304169228,\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@doe.com\",\n    \"state\": \"member\",\n    \"date_of_birth\": \"1004-05-27\",\n    \"points_balance\": 300,\n    \"referral_url\": \"http://i.refs.cc/9qr5Pw\",\n    \"vip_tier_id\": 426715794,\n    \"vip_status\": {\n      \"vip_tier_id\": 426715794,\n      \"vip_tier_expires_at\": \"2026-12-31T23:59:59.999Z\",\n      \"progress_value\": 300,\n      \"current_vip_period_end\": \"2025-12-31T23:59:59.999Z\",\n      \"delta_to_retain_vip_tier\": 1887.9441939958986,\n      \"next_vip_tier_id\": 426715799,\n      \"delta_to_next_vip_tier\": 200\n    },\n    \"created_at\": \"2024-04-04T15:10:42.030Z\",\n    \"updated_at\": \"2025-04-04T15:10:42.030Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07397436-c269-4c9a-a0aa-476895c22754",
+          "name": "List customers",
+          "request": {
+            "name": "List customers",
+            "description": {
+              "content": "Retrieves a list of customers based on a set of provided filters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "email",
+                  "value": "<string>",
+                  "description": "Filter results to only customers with the provided email address."
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "Filter results to only customers with the provided state."
+                },
+                {
+                  "disabled": false,
+                  "key": "updated_at_min",
+                  "value": "<dateTime>",
+                  "description": "Filter results to only customers updated after the provided date and time."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of customers to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Cursor for the page of customers to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "A comma-separated list of related objects to include in the response."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e90b8b2b-a9c0-4ae6-8d54-67ab95584713",
+              "name": "The customers were successfully retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updated_at_min",
+                      "value": "2024-04-04T15:10:42.030Z"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"customers\": [\n    {\n      \"id\": 304169228,\n      \"first_name\": \"Jane\",\n      \"last_name\": \"Doe\",\n      \"email\": \"jane@doe.com\",\n      \"state\": \"member\",\n      \"date_of_birth\": \"1004-05-27\",\n      \"points_balance\": 300,\n      \"referral_url\": \"http://i.refs.cc/9qr5Pw\",\n      \"vip_tier_id\": 426715794,\n      \"vip_status\": {\n        \"vip_tier_id\": 426715794,\n        \"vip_tier_expires_at\": \"2026-12-31T23:59:59.999Z\",\n        \"progress_value\": 300,\n        \"current_vip_period_end\": \"2025-12-31T23:59:59.999Z\",\n        \"delta_to_retain_vip_tier\": 4317.855459733464,\n        \"next_vip_tier_id\": 426715799,\n        \"delta_to_next_vip_tier\": 200\n      },\n      \"created_at\": \"2024-04-04T15:10:42.030Z\",\n      \"updated_at\": \"2025-04-04T15:10:42.030Z\"\n    },\n    {\n      \"id\": 304169228,\n      \"first_name\": \"Jane\",\n      \"last_name\": \"Doe\",\n      \"email\": \"jane@doe.com\",\n      \"state\": \"member\",\n      \"date_of_birth\": \"1004-05-27\",\n      \"points_balance\": 300,\n      \"referral_url\": \"http://i.refs.cc/9qr5Pw\",\n      \"vip_tier_id\": 426715794,\n      \"vip_status\": {\n        \"vip_tier_id\": 426715794,\n        \"vip_tier_expires_at\": \"2026-12-31T23:59:59.999Z\",\n        \"progress_value\": 300,\n        \"current_vip_period_end\": \"2025-12-31T23:59:59.999Z\",\n        \"delta_to_retain_vip_tier\": 1718.498394528084,\n        \"next_vip_tier_id\": 426715799,\n        \"delta_to_next_vip_tier\": 200\n      },\n      \"created_at\": \"2024-04-04T15:10:42.030Z\",\n      \"updated_at\": \"2025-04-04T15:10:42.030Z\"\n    }\n  ],\n  \"metadata\": {\n    \"next_cursor\": \"aWQ6MixkaXJlY3Rpb246bmV4dA==\",\n    \"previous_cursor\": \"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smile.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8b356f5c-7ebd-4d58-b4b6-7cd2512579fb",
+    "name": "Smile.io REST Activities Customers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.\n\nContact Support:\n Name: Smile.io Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

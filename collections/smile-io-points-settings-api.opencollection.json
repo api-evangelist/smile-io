@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities Points Settings API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Points Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get points settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_settings"
+          },
+          "docs": "Retrieves the configuration for the account's points program."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities Reward Fulfillments API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reward Fulfillments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List reward fulfillments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/reward_fulfillments",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only reward fulfillments with the provided Smile customer ID."
+              },
+              {
+                "name": "fulfillment_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only reward fulfillments whose fulfillment status matches the provided value."
+              },
+              {
+                "name": "usage_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only reward fulfillments whose usage status matches the provided values."
+              },
+              {
+                "name": "updated_at_min",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only reward fulfillments updated after the provided date and time."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of reward fulfillments to retrieve."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for the page of reward fulfillments to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of reward fulfillments."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

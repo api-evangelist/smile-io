@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities Customer Identities API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customer Identities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or update a customer identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/customer_identities/create_or_update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new customer identity or updates an existing one."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

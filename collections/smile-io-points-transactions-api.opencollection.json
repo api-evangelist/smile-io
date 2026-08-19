@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities Points Transactions API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Points Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List points transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_transactions",
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only points transactions with the provided Smile customer ID."
+              },
+              {
+                "name": "updated_at_min",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only points transactions updated at or after the provided date and time."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of points transactions to retrieve."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for the page of points transactions to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of points transactions."
+        },
+        {
+          "info": {
+            "name": "Create a points transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smile.io/v1/points_transactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add or remove points from a customer's points balance by creating a points transaction."
+        },
+        {
+          "info": {
+            "name": "Retrieve a points transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/points_transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the points transaction to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a single points transaction by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,98 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities Customers API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/customers/:id",
+            "params": [
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of related objects to include in the response."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the customer (in Smile) to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a single customer by ID."
+        },
+        {
+          "info": {
+            "name": "List customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/customers",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only customers with the provided email address."
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only customers with the provided state."
+              },
+              {
+                "name": "updated_at_min",
+                "value": "",
+                "type": "query",
+                "description": "Filter results to only customers updated after the provided date and time."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of customers to retrieve."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for the page of customers to retrieve."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of related objects to include in the response."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of customers based on a set of provided filters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

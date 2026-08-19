@@ -1,0 +1,119 @@
+{
+  "item": [
+    {
+      "id": "8fe61628-5656-40f6-a1eb-f551a9de9122",
+      "name": "Points Settings",
+      "description": {
+        "content": "Program-level points configuration (currency name, ratios).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f742a09c-6fd9-4f85-8924-f6b065e37cbe",
+          "name": "Get points settings",
+          "request": {
+            "name": "Get points settings",
+            "description": {
+              "content": "Retrieves the configuration for the account's points program.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "points_settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "18e3379a-086a-4ef2-bc87-c43436fda396",
+              "name": "The points settings were successfully retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "points_settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"points_settings\": {\n    \"points_label\": {\n      \"one\": \"Coin\",\n      \"other\": \"Coins\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smile.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d432a489-cc3d-491e-987a-f73c4b275377",
+    "name": "Smile.io REST Activities Points Settings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.\n\nContact Support:\n Name: Smile.io Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "item": [
+    {
+      "id": "2240e8f7-6cc2-46a6-ab1b-9ed0dd29b770",
+      "name": "Activities",
+      "description": {
+        "content": "Record custom customer activities that can earn points.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "08b13eae-3e7b-4eb2-b108-2bda99fdb0cf",
+          "name": "Create an activity",
+          "request": {
+            "name": "Create an activity",
+            "description": {
+              "content": "Creates a record of a customer having performed a given action.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "activities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activity\": {\n    \"customer_id\": \"<integer>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a1175233-6167-4a8a-b2df-bcf8fddca048",
+              "name": "The activity was successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "activities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"activity\": {\n    \"customer_id\": 304169228\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"activity\": {\n    \"id\": 503256787,\n    \"customer_id\": 304169228,\n    \"token\": \"activity_f57a9b5a8d0ac5\",\n    \"distinct_id\": \"212993\",\n    \"created_on_origin_at\": \"2024-04-04T15:10:42.030Z\",\n    \"created_at\": \"2024-05-15T08:35:08.920Z\",\n    \"updated_at\": \"2024-05-15T08:35:08.920Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smile.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f593cf87-e5ca-4ca1-90b4-3b526b3369a3",
+    "name": "Smile.io REST Activities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.\n\nContact Support:\n Name: Smile.io Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

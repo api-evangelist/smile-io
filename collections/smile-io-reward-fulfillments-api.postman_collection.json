@@ -1,0 +1,180 @@
+{
+  "item": [
+    {
+      "id": "95efbb78-826b-4bf2-a195-4aa717eaa8ca",
+      "name": "Reward Fulfillments",
+      "description": {
+        "content": "Fulfillment records for rewards a customer has redeemed.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "685078d6-3064-4e54-86b4-7f5b7481fa36",
+          "name": "List reward fulfillments",
+          "request": {
+            "name": "List reward fulfillments",
+            "description": {
+              "content": "Retrieves a list of reward fulfillments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reward_fulfillments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "customer_id",
+                  "value": "<integer>",
+                  "description": "Filter results to only reward fulfillments with the provided Smile customer ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "fulfillment_status",
+                  "value": "<string>",
+                  "description": "Filter results to only reward fulfillments whose fulfillment status matches the provided value."
+                },
+                {
+                  "disabled": false,
+                  "key": "usage_status",
+                  "value": "<string>",
+                  "description": "Filter results to only reward fulfillments whose usage status matches the provided values."
+                },
+                {
+                  "disabled": false,
+                  "key": "updated_at_min",
+                  "value": "<dateTime>",
+                  "description": "Filter results to only reward fulfillments updated after the provided date and time."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "The maximum number of reward fulfillments to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Cursor for the page of reward fulfillments to retrieve."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3259eff2-d4a0-47b1-8002-1c4ac97934ea",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reward_fulfillments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "customer_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fulfillment_status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "usage_status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updated_at_min",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reward_fulfillments\": [\n    {\n      \"id\": 625478984,\n      \"name\": \"$5 off coupon\",\n      \"code\": \"5off-e26d02e39149\",\n      \"customer_id\": 304169228,\n      \"fulfillment_status\": \"issued\",\n      \"image_url\": \"https://platform-images.smilecdn.co/9283449.png\",\n      \"action_text\": \"string\",\n      \"action_url\": \"string\",\n      \"usage_instructions\": \"Use this discount code on your next order!\",\n      \"terms_and_conditions\": \"Reward expires on June 7, 2025. Reward can only be used on purchase of $50 or more. Reward can only be used on select product collections.\",\n      \"expires_at\": \"2025-06-07T23:59:59.999Z\",\n      \"usage_status\": \"unused\",\n      \"used_at\": \"2020-10-17T15:42:25.116Z\",\n      \"created_at\": \"2024-12-07T20:15:27.893Z\",\n      \"updated_at\": \"2024-12-07T20:15:27.893Z\"\n    },\n    {\n      \"id\": 625478984,\n      \"name\": \"$5 off coupon\",\n      \"code\": \"5off-e26d02e39149\",\n      \"customer_id\": 304169228,\n      \"fulfillment_status\": \"issued\",\n      \"image_url\": \"https://platform-images.smilecdn.co/9283449.png\",\n      \"action_text\": \"string\",\n      \"action_url\": \"string\",\n      \"usage_instructions\": \"Use this discount code on your next order!\",\n      \"terms_and_conditions\": \"Reward expires on June 7, 2025. Reward can only be used on purchase of $50 or more. Reward can only be used on select product collections.\",\n      \"expires_at\": \"2025-06-07T23:59:59.999Z\",\n      \"usage_status\": \"unused\",\n      \"used_at\": \"1967-01-01T09:51:53.276Z\",\n      \"created_at\": \"2024-12-07T20:15:27.893Z\",\n      \"updated_at\": \"2024-12-07T20:15:27.893Z\"\n    }\n  ],\n  \"metadata\": {\n    \"next_cursor\": \"aWQ6MixkaXJlY3Rpb246bmV4dA==\",\n    \"previous_cursor\": \"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smile.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2911fdcb-16e7-41c1-920b-9b8c52bbb092",
+    "name": "Smile.io REST Activities Reward Fulfillments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.\n\nContact Support:\n Name: Smile.io Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

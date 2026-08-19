@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smile.io REST Activities Earning Rules API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Earning Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List earning rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smile.io/v1/earning_rules",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of earning rules to retrieve."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for the page of earning rules to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of enabled earning rules."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
