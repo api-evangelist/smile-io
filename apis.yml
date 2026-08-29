@@ -11,6 +11,18 @@ description: Smile.io is a loyalty, rewards, and referrals platform for e-commer
   It uses resource-oriented URLs, returns JSON, and is authenticated with an HTTP
   Bearer token (a merchant API key or an app OAuth access token). REST API access
   is gated to the Plus and Enterprise plans.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
