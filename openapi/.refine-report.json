@@ -1,15 +1,7 @@
 {
   "provider": "smile-io",
   "sources": [
-    "smile-io-activities-api-openapi.yml",
-    "smile-io-customer-identities-api-openapi.yml",
-    "smile-io-customers-api-openapi.yml",
-    "smile-io-earning-rules-api-openapi.yml",
-    "smile-io-points-products-api-openapi.yml",
-    "smile-io-points-settings-api-openapi.yml",
-    "smile-io-points-transactions-api-openapi.yml",
-    "smile-io-reward-fulfillments-api-openapi.yml",
-    "smile-io-vip-tiers-api-openapi.yml"
+    "_original/smile-io-openapi.yml"
   ],
   "outputs": [
     "smile-io-activities-api-openapi.yml",
@@ -25,6 +17,20 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "smile-io-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "smile-io-activities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-customer-identities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-earning-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-points-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-points-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-points-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-reward-fulfillments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smile-io-vip-tiers-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

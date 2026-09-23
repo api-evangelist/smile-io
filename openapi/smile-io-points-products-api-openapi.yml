@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Smile.io REST Activities Points Products API
+  title: Smile.io REST Points Products API
   description: A RESTful interface for interacting with Smile.io loyalty programs - customers and customer identities, points transactions and settings, points products and purchases, earning rules, rewards and reward fulfillments, VIP tiers, and activities. Resource-oriented URLs return JSON and use standard HTTP status codes. Authenticated with an HTTP Bearer token (a merchant API key, or an app OAuth access token). REST API access is available on the Plus and Enterprise plans.
   version: 1.0.0
   contact:
@@ -136,66 +136,6 @@ paths:
         description: ID of the points product to retrieve.
 components:
   schemas:
-    PointsProduct:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 132456921
-          description: Unique identifier for the points product.
-        exchange_type:
-          type: string
-          enum:
-          - fixed
-          - variable
-          example: variable
-          description: How points are exchanged for the reward.
-        exchange_description:
-          type: string
-          example: 100 Points = $1 off
-          description: A human readable description of how a customer spends points on this reward. It includes the points branding for the program.
-        points_price:
-          type:
-          - integer
-          - 'null'
-          description: Number of points needed to purchase this reward. Only present when `exchange_type` is `fixed`.
-        variable_points_step:
-          type:
-          - integer
-          - 'null'
-          example: 100
-          description: Imagine there's a points slider your customers can drag to spend more or less points on a reward. The `variable_points_step` represents the number of points between each notch on the slider. E.g. If this value is set to 100, it means customers can spend their points in increments of 100. They will drag the slider from 100, 200, 300, etc. Only present when `exchange_type` is `variable`.
-        variable_points_step_reward_value:
-          type:
-          - integer
-          - 'null'
-          example: 1
-          description: Imagine there's a points slider your customers can drag to spend more or less points on a reward. The `variable_points_step_reward_value` represents the corresponding reward value for each step increment on the slider. E.g. if this value is set to 1, and the variable_points_step is set to 100, the customer will get $1 off for every 100 points they spend. Only present when `exchange_type` is `variable.`
-        variable_points_min:
-          type:
-          - integer
-          - 'null'
-          example: 100
-          description: The minimum amount of points the customer must spend to get this reward. Normally the minimum value of the points slider. Only present when `exchange_type` is `variable`.
-        variable_points_max:
-          type:
-          - integer
-          - 'null'
-          example: 5000
-          description: The maximum amount of points the customer must spend to get this reward. Normally the maximum value of the points slider. Only present when `exchange_type` is `variable`.
-        reward:
-          $ref: '#/components/schemas/Reward'
-          description: A nested Reward object representing the reward issued to the customer when they purchase the points product.
-        created_at:
-          type: string
-          format: date-time
-          example: '2024-04-04T15:10:42.030Z'
-          description: The date and time when the points product was created.
-        updated_at:
-          type: string
-          format: date-time
-          example: '2024-04-04T15:10:42.030Z'
-          description: The date and time when the points product was last updated.
     RewardFulfillment:
       type: object
       properties:
@@ -314,6 +254,66 @@ components:
           description: The date and time when the points purchase was last updated.
           format: date-time
           example: '2024-04-04T15:10:42.030Z'
+    PointsProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 132456921
+          description: Unique identifier for the points product.
+        exchange_type:
+          type: string
+          enum:
+          - fixed
+          - variable
+          example: variable
+          description: How points are exchanged for the reward.
+        exchange_description:
+          type: string
+          example: 100 Points = $1 off
+          description: A human readable description of how a customer spends points on this reward. It includes the points branding for the program.
+        points_price:
+          type:
+          - integer
+          - 'null'
+          description: Number of points needed to purchase this reward. Only present when `exchange_type` is `fixed`.
+        variable_points_step:
+          type:
+          - integer
+          - 'null'
+          example: 100
+          description: Imagine there's a points slider your customers can drag to spend more or less points on a reward. The `variable_points_step` represents the number of points between each notch on the slider. E.g. If this value is set to 100, it means customers can spend their points in increments of 100. They will drag the slider from 100, 200, 300, etc. Only present when `exchange_type` is `variable`.
+        variable_points_step_reward_value:
+          type:
+          - integer
+          - 'null'
+          example: 1
+          description: Imagine there's a points slider your customers can drag to spend more or less points on a reward. The `variable_points_step_reward_value` represents the corresponding reward value for each step increment on the slider. E.g. if this value is set to 1, and the variable_points_step is set to 100, the customer will get $1 off for every 100 points they spend. Only present when `exchange_type` is `variable.`
+        variable_points_min:
+          type:
+          - integer
+          - 'null'
+          example: 100
+          description: The minimum amount of points the customer must spend to get this reward. Normally the minimum value of the points slider. Only present when `exchange_type` is `variable`.
+        variable_points_max:
+          type:
+          - integer
+          - 'null'
+          example: 5000
+          description: The maximum amount of points the customer must spend to get this reward. Normally the maximum value of the points slider. Only present when `exchange_type` is `variable`.
+        reward:
+          $ref: '#/components/schemas/Reward'
+          description: A nested Reward object representing the reward issued to the customer when they purchase the points product.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the points product was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the points product was last updated.
     Reward:
       type: object
       properties:
