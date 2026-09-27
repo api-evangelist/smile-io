@@ -59,21 +59,6 @@ paths:
         description: Cursor for the page of earning rules to retrieve.
 components:
   schemas:
-    PaginationMetadata:
-      type: object
-      properties:
-        next_cursor:
-          type:
-          - string
-          - 'null'
-          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
-          description: A cursor value that when present, can be used to retrieve the next page of results.
-        previous_cursor:
-          type:
-          - string
-          - 'null'
-          example: ''
-          description: A cursor value that when present, can be used to retrieve the previous page of results.
     EarningRule:
       type: object
       properties:
@@ -182,6 +167,21 @@ components:
                   description: The number of units in the rolling window (e.g. if the window is 30 days, this field will have a value of `30`).
               description: The configuration for a rolling window of time. Only present when type is `rolling`, otherwise this key will be omitted from response.
           description: A restriction on the number of times the rewardable action can be completed. If no limit exists, will be `null`.
+    PaginationMetadata:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
+          description: A cursor value that when present, can be used to retrieve the next page of results.
+        previous_cursor:
+          type:
+          - string
+          - 'null'
+          example: ''
+          description: A cursor value that when present, can be used to retrieve the previous page of results.
   securitySchemes:
     bearerAuth:
       type: http

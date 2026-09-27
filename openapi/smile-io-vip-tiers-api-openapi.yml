@@ -50,6 +50,34 @@ paths:
         description: A comma-separated list of nested objects to include in the response.
 components:
   schemas:
+    Reward:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 924565472
+          description: Unique identifier for the reward.
+        name:
+          type: string
+          example: Order discount
+          description: The name of the reward.
+        description:
+          type: string
+          description: A description of the reward.
+        image_url:
+          type: string
+          example: https://platform-images.smilecdn.co/3755938.png
+          description: An image for the reward.
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was last updated.
     VipTier:
       type: object
       properties:
@@ -85,34 +113,6 @@ components:
           items:
             $ref: '#/components/schemas/Reward'
           description: A set of nested Reward objects representing the rewards that are issued to a customer when they enter the VIP tier.
-    Reward:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 924565472
-          description: Unique identifier for the reward.
-        name:
-          type: string
-          example: Order discount
-          description: The name of the reward.
-        description:
-          type: string
-          description: A description of the reward.
-        image_url:
-          type: string
-          example: https://platform-images.smilecdn.co/3755938.png
-          description: An image for the reward.
-        created_at:
-          type: string
-          format: date-time
-          example: '2024-04-04T15:10:42.030Z'
-          description: The date and time when the reward was created.
-        updated_at:
-          type: string
-          format: date-time
-          example: '2024-04-04T15:10:42.030Z'
-          description: The date and time when the reward was last updated.
   securitySchemes:
     bearerAuth:
       type: http
