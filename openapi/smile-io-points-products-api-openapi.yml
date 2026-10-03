@@ -164,39 +164,6 @@ components:
           format: date-time
           example: '2024-04-04T15:10:42.030Z'
           description: The date and time when the reward was last updated.
-    PointsPurchase:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Unique identifier for the points purchase.
-          example: 665523890
-        customer_id:
-          type: integer
-          description: The ID of the customer who performed the points purchase.
-          example: 304169228
-        points_product_id:
-          type: integer
-          description: The ID of the points product that was purchased.
-          example: 132456921
-        points_spent:
-          type: integer
-          description: The total points spent by the customer.
-          example: 500
-          minimum: 0
-        reward_fulfillment:
-          $ref: '#/components/schemas/RewardFulfillment'
-          description: A record of a reward that was issued to a customer.
-        created_at:
-          type: string
-          description: The date and time when the points purchase was created.
-          format: date-time
-          example: '2024-04-04T15:10:42.030Z'
-        updated_at:
-          type: string
-          description: The date and time when the points purchase was last updated.
-          format: date-time
-          example: '2024-04-04T15:10:42.030Z'
     PointsProduct:
       type: object
       properties:
@@ -257,6 +224,39 @@ components:
           format: date-time
           example: '2024-04-04T15:10:42.030Z'
           description: The date and time when the points product was last updated.
+    PointsPurchase:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the points purchase.
+          example: 665523890
+        customer_id:
+          type: integer
+          description: The ID of the customer who performed the points purchase.
+          example: 304169228
+        points_product_id:
+          type: integer
+          description: The ID of the points product that was purchased.
+          example: 132456921
+        points_spent:
+          type: integer
+          description: The total points spent by the customer.
+          example: 500
+          minimum: 0
+        reward_fulfillment:
+          $ref: '#/components/schemas/RewardFulfillment'
+          description: A record of a reward that was issued to a customer.
+        created_at:
+          type: string
+          description: The date and time when the points purchase was created.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
+        updated_at:
+          type: string
+          description: The date and time when the points purchase was last updated.
+          format: date-time
+          example: '2024-04-04T15:10:42.030Z'
     RewardFulfillment:
       type: object
       properties:
