@@ -439,6 +439,9 @@ apis:
   - type: APIReference
     url: https://dev.smile.io/api/resources/activities/create-activity
 common:
+- type: CapabilityMap
+  url: capabilities/smile-io-capability-edges.yml
+  name: Smile.io Business Capability Map
 - type: AgenticAccess
   url: agentic-access/smile-io-agentic-access.yml
 - type: DomainSecurity
