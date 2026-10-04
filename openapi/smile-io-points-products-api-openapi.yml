@@ -136,34 +136,91 @@ paths:
         description: ID of the points product to retrieve.
 components:
   schemas:
-    Reward:
+    RewardFulfillment:
       type: object
       properties:
         id:
           type: integer
-          example: 924565472
-          description: Unique identifier for the reward.
+          example: 625478984
+          description: Unique identifier for the reward fulfillment.
         name:
           type: string
-          example: Order discount
-          description: The name of the reward.
-        description:
+          example: $5 off coupon
+          description: The name of the reward fulfillment.
+        code:
           type: string
-          description: A description of the reward.
+          example: 5off-e26d02e39149
+          description: A unique code for the customer to use or apply the reward fulfillment. This is commonly a discount code the customer applies at checkout on their next order, but it can be a unique code they use for other purposes like accessing an exclusive page on the merchant's website.
+        customer_id:
+          type: integer
+          example: 304169228
+          description: The ID of the customer that the reward fulfillment belongs to.
+        fulfillment_status:
+          type: string
+          enum:
+          - pending
+          - issued
+          - cancelled
+          - failed
+          example: issued
+          description: The fulfillment status of the reward fulfillment, indicating whether the reward is available to the customer.
         image_url:
           type: string
-          example: https://platform-images.smilecdn.co/3755938.png
-          description: An image for the reward.
+          example: https://platform-images.smilecdn.co/9283449.png
+          description: An image for the reward fulfillment.
+        action_text:
+          type:
+          - string
+          - 'null'
+          description: A short call-to-action style text, appropriate for use in buttons or links, guiding the customer on how to use the reward fulfillment. This field may be blank
+        action_url:
+          type:
+          - string
+          - 'null'
+          description: A URL destination guiding the customer on how to use the reward, often paired with the `action_text` for use in buttons or links. This field may be blank.
+        usage_instructions:
+          type:
+          - string
+          - 'null'
+          example: Use this discount code on your next order!
+          description: A description of how the customer can use or apply the reward fulfillment.
+        terms_and_conditions:
+          type:
+          - string
+          - 'null'
+          example: Reward expires on June 7, 2025. Reward can only be used on purchase of $50 or more. Reward can only be used on select product collections.
+          description: A description of the reward fulfillment's limitations or restrictions. When the reward is a discount code, this commonly includes expiry date, minimum order amounts, or applicability to specific product collections.
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2025-06-07T23:59:59.999Z'
+          description: The date and time when the reward fulfillment expires. When the reward is a discount code, this refers to the expiry date of the discount, and a `null` value indicates that the discount code does not expire.
+        usage_status:
+          type: string
+          enum:
+          - used
+          - unused
+          - untracked
+          example: unused
+          description: The usage status of the reward fulfillment, indicating whether the generated reward has been used by the customer.
+        used_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date and time when the reward fulfillment was used by the customer. If the reward fulfillments does not support usage tracking, this field may be `null` even after the reward fulfillment has been used.
         created_at:
           type: string
           format: date-time
-          example: '2024-04-04T15:10:42.030Z'
-          description: The date and time when the reward was created.
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the reward fulfillment was created.
         updated_at:
           type: string
           format: date-time
-          example: '2024-04-04T15:10:42.030Z'
-          description: The date and time when the reward was last updated.
+          example: '2024-12-07T20:15:27.893Z'
+          description: The date and time when the reward fulfillment was last updated.
     PointsProduct:
       type: object
       properties:
@@ -257,91 +314,34 @@ components:
           description: The date and time when the points purchase was last updated.
           format: date-time
           example: '2024-04-04T15:10:42.030Z'
-    RewardFulfillment:
+    Reward:
       type: object
       properties:
         id:
           type: integer
-          example: 625478984
-          description: Unique identifier for the reward fulfillment.
+          example: 924565472
+          description: Unique identifier for the reward.
         name:
           type: string
-          example: $5 off coupon
-          description: The name of the reward fulfillment.
-        code:
+          example: Order discount
+          description: The name of the reward.
+        description:
           type: string
-          example: 5off-e26d02e39149
-          description: A unique code for the customer to use or apply the reward fulfillment. This is commonly a discount code the customer applies at checkout on their next order, but it can be a unique code they use for other purposes like accessing an exclusive page on the merchant's website.
-        customer_id:
-          type: integer
-          example: 304169228
-          description: The ID of the customer that the reward fulfillment belongs to.
-        fulfillment_status:
-          type: string
-          enum:
-          - pending
-          - issued
-          - cancelled
-          - failed
-          example: issued
-          description: The fulfillment status of the reward fulfillment, indicating whether the reward is available to the customer.
+          description: A description of the reward.
         image_url:
           type: string
-          example: https://platform-images.smilecdn.co/9283449.png
-          description: An image for the reward fulfillment.
-        action_text:
-          type:
-          - string
-          - 'null'
-          description: A short call-to-action style text, appropriate for use in buttons or links, guiding the customer on how to use the reward fulfillment. This field may be blank
-        action_url:
-          type:
-          - string
-          - 'null'
-          description: A URL destination guiding the customer on how to use the reward, often paired with the `action_text` for use in buttons or links. This field may be blank.
-        usage_instructions:
-          type:
-          - string
-          - 'null'
-          example: Use this discount code on your next order!
-          description: A description of how the customer can use or apply the reward fulfillment.
-        terms_and_conditions:
-          type:
-          - string
-          - 'null'
-          example: Reward expires on June 7, 2025. Reward can only be used on purchase of $50 or more. Reward can only be used on select product collections.
-          description: A description of the reward fulfillment's limitations or restrictions. When the reward is a discount code, this commonly includes expiry date, minimum order amounts, or applicability to specific product collections.
-        expires_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2025-06-07T23:59:59.999Z'
-          description: The date and time when the reward fulfillment expires. When the reward is a discount code, this refers to the expiry date of the discount, and a `null` value indicates that the discount code does not expire.
-        usage_status:
-          type: string
-          enum:
-          - used
-          - unused
-          - untracked
-          example: unused
-          description: The usage status of the reward fulfillment, indicating whether the generated reward has been used by the customer.
-        used_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date and time when the reward fulfillment was used by the customer. If the reward fulfillments does not support usage tracking, this field may be `null` even after the reward fulfillment has been used.
+          example: https://platform-images.smilecdn.co/3755938.png
+          description: An image for the reward.
         created_at:
           type: string
           format: date-time
-          example: '2024-12-07T20:15:27.893Z'
-          description: The date and time when the reward fulfillment was created.
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was created.
         updated_at:
           type: string
           format: date-time
-          example: '2024-12-07T20:15:27.893Z'
-          description: The date and time when the reward fulfillment was last updated.
+          example: '2024-04-04T15:10:42.030Z'
+          description: The date and time when the reward was last updated.
   securitySchemes:
     bearerAuth:
       type: http

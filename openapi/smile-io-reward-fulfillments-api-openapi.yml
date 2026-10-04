@@ -98,21 +98,6 @@ paths:
         description: Cursor for the page of reward fulfillments to retrieve.
 components:
   schemas:
-    PaginationMetadata:
-      type: object
-      properties:
-        next_cursor:
-          type:
-          - string
-          - 'null'
-          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
-          description: A cursor value that when present, can be used to retrieve the next page of results.
-        previous_cursor:
-          type:
-          - string
-          - 'null'
-          example: ''
-          description: A cursor value that when present, can be used to retrieve the previous page of results.
     RewardFulfillment:
       type: object
       properties:
@@ -198,6 +183,21 @@ components:
           format: date-time
           example: '2024-12-07T20:15:27.893Z'
           description: The date and time when the reward fulfillment was last updated.
+    PaginationMetadata:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+          example: aWQ6MixkaXJlY3Rpb246bmV4dA==
+          description: A cursor value that when present, can be used to retrieve the next page of results.
+        previous_cursor:
+          type:
+          - string
+          - 'null'
+          example: ''
+          description: A cursor value that when present, can be used to retrieve the previous page of results.
   securitySchemes:
     bearerAuth:
       type: http
