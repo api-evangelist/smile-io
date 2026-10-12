@@ -1,0 +1,20 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/smile-io/integrations
+- https://zapier.com/apps/smile/integrations
+- https://n8n.io/integrations/smile-io/
+- https://n8n.io/integrations/smile/
+- https://composio.dev/toolkits/smile-io
+- https://monid.ai/tools/smile-io
+checked:
+- https://composio.dev/toolkits/smile-io
+- https://monid.ai/tools/smile-io
+- https://n8n.io/integrations/smile-io/
+- https://n8n.io/integrations/smile/
+- https://zapier.com/apps/smile-io/integrations
+- https://zapier.com/apps/smile/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
