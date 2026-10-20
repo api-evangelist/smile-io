@@ -8,6 +8,7 @@ source:
 - https://composio.dev/toolkits/smile-io
 - https://monid.ai/tools/smile-io
 checked:
+- gorgias/integrations/gorgias-integration-edges.yml
 - https://composio.dev/toolkits/smile-io
 - https://monid.ai/tools/smile-io
 - https://n8n.io/integrations/smile-io/
@@ -18,6 +19,22 @@ checked:
 summary: null
 marketplace_apps: []
 edges:
+- partner_name: Gorgias (own)
+  partner: gorgias
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.gorgias.com/apps/smile-io
+  mirror_of: gorgias/integrations/gorgias-integration-edges.yml
+  apps:
+  - Smile
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
 - partner_name: Shopify (own)
   partner: shopify
   partner_match: mirror
