@@ -27,3 +27,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: smile-io-hubspot-own
+  label: HubSpot (own)
+  partner: hubspot
+  partner_name: HubSpot (own)
+  category: E_COMMERCE
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://ecosystem.hubspot.com/marketplace/listing/smile
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

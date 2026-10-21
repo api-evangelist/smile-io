@@ -16,6 +16,7 @@ checked:
 - https://zapier.com/apps/smile-io/integrations
 - https://zapier.com/apps/smile/integrations
 - shopify/integrations/shopify-integration-edges.yml
+- hubspot/integrations/hubspot-integration-edges.yml
 summary: null
 marketplace_apps: []
 edges:
@@ -53,4 +54,21 @@ edges:
   detected_by: mirror-platform-listings.py
   publisher_verified:
   - Built for Shopify
+- partner_name: HubSpot (own)
+  partner: hubspot
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://ecosystem.hubspot.com/marketplace/listing/smile
+  mirror_of: hubspot/integrations/hubspot-integration-edges.yml
+  apps:
+  - Smile.io
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: E_COMMERCE
 templates: []
